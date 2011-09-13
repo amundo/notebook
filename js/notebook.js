@@ -43,21 +43,13 @@ $(function(){
       _.bindAll(this, 'render');
     },
 
-    /*render : function(){
-      _.each(this.collection, function(sentence) { 
-        var view = new SentenceView({model: sentence});
-        this.$('ol').append(view.render().el);
-      }, this ) ;
-      $(this.el).appendTo('body');
-      return this;
-    }*/
     render : function(){
-      $(this.el).append('<ol id=sentences></ol>');
+
       _(this.collection).each(function(sentence){
         var view = new SentenceView({model: sentence});
-console.log(view);
         this.$('ol#sentences').append(view.render().el);
       });
+
       return this;
     }
 
