@@ -4,7 +4,7 @@ $(function(){
   window.Sentence = Backbone.Model.extend({ 
 
     initialize: function() {
-      console.log(this.model.toJSON()) 
+      console.log(this.toJSON()) 
     }
 
   });
@@ -26,6 +26,7 @@ $(function(){
       this.template = _.template($('#sentence_template').html());
     },
 
+  
     render : function(){
       var rendered = this.template(this.model.toJSON());
       $(this.el).html(rendered);
@@ -42,12 +43,21 @@ $(function(){
       _.bindAll(this, 'render');
     },
 
-    render : function(){
+    /*render : function(){
       _.each(this.collection, function(sentence) { 
         var view = new SentenceView({model: sentence});
         this.$('ol').append(view.render().el);
-      }) ;
+      }, this ) ;
       $(this.el).appendTo('body');
+      return this;
+    }*/
+    render : function(){
+      $(this.el).append('<ol id=sentences></ol>');
+      _(this.collection).each(function(sentence){
+        var view = new SentenceView({model: sentence});
+console.log(view);
+        this.$('ol#sentences').append(view.render().el);
+      });
       return this;
     }
 
