@@ -68,7 +68,7 @@ $(function(){
     },
   
     render : function(){
-      var rendered = _.template('<ol class=sentence><li> <%= sentence %></li><li> <%= translation %> </li></ol>', this.model.toJSON());
+      var rendered = _.template('<ol class=phrase><li class=sentence> <%= sentence %></li><li  class=translation> <%= translation %> </li></ol>', this.model.toJSON());
       $(this.el).html(rendered);
       return this;
     }
@@ -87,7 +87,7 @@ $(function(){
 
       this.collection.each(function(sentence){
         var view = new SentenceView({model: sentence});
-        this.$('ol#sentences').prepend(view.render().el);
+        this.$('ul#sentences').prepend(view.render().el);
       });
 
       return this;

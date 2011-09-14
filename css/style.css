@@ -35,6 +35,7 @@ div#editor {
   width: 90%;
 
   margin: 1em auto;
+  padding:  0 1em;
 
   font-size: 2em ;
   line-height: 150%;
@@ -45,6 +46,29 @@ div#editor {
   border-radius: 20px;
 
   background:white;
+}
+
+ul#sentences { 
+  color: #aaa;
+}
+
+ol.phrase{ 
+  list-style-type: none;
+  margin: 0 0 .5em;
+  padding: 0;
+}
+
+ol.phrase li { 
+  padding: 0;
+  margin: 0;
+}
+
+li.sentence { 
+  color:maroon;
+}
+
+li.translation { 
+  color:black;
 }
 
 textarea#transliterated, textarea#plain {
