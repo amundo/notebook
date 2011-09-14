@@ -4,7 +4,7 @@ $(function(){
   window.Sentence = Backbone.Model.extend({ 
 
     initialize: function() {
-      console.log(this.toJSON()) 
+
     }
 
   });
@@ -20,6 +20,7 @@ $(function(){
   });
 
   window.SentenceView = Backbone.View.extend({
+    tagName: 'li',
 
     initialize : function(){
       _.bindAll(this, 'render');
@@ -58,25 +59,23 @@ $(function(){
 
   function Notebook(params){
 
-    this.text = new Text(
-      // models
-      {}, 
-      // params
-      {
-        url: params.url 
-      }
-    );
+    this.text = new Text( {}, { url: params.url });
+
+    this.text.fetch({
+       success: function(){
+       }
+    });
 
 
     this.start = function(){
-      this.text.fetch();
+console.log('hi');
       this.textView = new TextView({
         collection: this.text
-      });
+      })
       $('body').append(this.textView.render().el);
     };
-
   }
+
 
   window.notebook = new Notebook(
     {
