@@ -60,17 +60,59 @@ $(function(){
 
   });
 
+
   window.SentenceView = Backbone.View.extend({
     tagName: 'li',
 
+    events : {
+      'click' : 'logModel'
+    },
+
     initialize : function(){
-      _.bindAll(this, 'render');
+      _.bindAll(this, 'render', 'logModel');
     },
   
+    logModel : function(ev){
+      console.log(this.model.get('sentence'));
+      console.log(this.model.cid);
+    },
+
     render : function(){
       var rendered = _.template('<ol class=phrase><li class=sentence> <%= sentence %></li><li  class=translation> <%= translation %> </li></ol>', this.model.toJSON());
       $(this.el).html(rendered);
       return this;
+    }
+
+  })
+
+  window.SentenceEditorView = Backbone.View.extend({
+    el: '#sentenceEditor',
+
+    events : {
+      'keyup #plain' : 'parsePair'
+    },
+
+    initialize : function(){
+      _.bindAll(this, 'parsePair');
+    },
+  
+    parsePair : function(ev){
+      var transliterated = this.transliterate($(ev.target).val());
+      this.$('p#transliterated').html(transliterated);
+    },
+
+    transliterate : function (text){
+
+      var pinyin = [ [ "1", "\u0304" ], [ "2", "\u0301" ], [ "3", "\u030C" ], [ "4", "\u0300" ] ];
+
+      $.each(pinyin, function(i, rule){
+        var beforeRE = new RegExp(rule[0], 'g'),
+            after = rule[1];
+
+        text = text.replace(beforeRE, after);
+
+      })
+      return text;
     }
 
   })
@@ -101,6 +143,7 @@ $(function(){
   Notebook.text.reset(data);
 
   Notebook.textView = new TextView({collection: Notebook.text});
+  Notebook.sentenceEditorView = new SentenceEditorView({});
   Notebook.textView.render();
 
 })

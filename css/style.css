@@ -4,7 +4,7 @@ body {
    background: url(../images/cardboard.gif);
 } 
 
-div#editor {
+div#sentenceEditor {
   border-bottom: 1px solid hsl(39, 50%, 41%);
   width: 100%;
   overflow:auto;
@@ -71,7 +71,7 @@ li.translation {
   color:black;
 }
 
-textarea#transliterated, textarea#plain {
+p#transliterated, input#plain {
   text-align: center;
   padding: .4em;
   width:90%;
@@ -81,13 +81,14 @@ textarea#transliterated, textarea#plain {
   margin: 1em auto;
 } 
 
-textarea#transliterated {
+p#transliterated {
   font-size: x-large;
 }
 
-textarea#plain {
+input#plain {
   font-size:normal;
-  border: none;
   margin-bottom: 0;
+  border:1px solid black;
   color: gray;
 }
+
