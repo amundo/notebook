@@ -4,27 +4,37 @@ body {
    background: url(../images/cardboard.gif);
 } 
 
-div#sentenceEditor {
+form#sentenceEditor {
   border-bottom: 1px solid hsl(39, 50%, 41%);
   width: 100%;
   overflow:auto;
   background: white;
-  padding: 1em 0 0 ;
+  padding: 1em 0 ;
 }
 
+input#plain, input#translation {
+  text-align: center;
+  padding: .4em;
+  width:90%;
+  height: 1em;
+  font-size: 1em;
+  overflow-y: hidden;
+  display:block;
+  margin: 1em auto;
+} 
 
-#rules {
-  font-size:small;
-   border: 1px dotted gray;
-   overflow: auto;
-   padding: 2px;
-    width: 10em;
-   float:right;
+input#plain {
+  margin-bottom: 0;
+  border:1px solid black;
+  color: gray;
 }
 
-#rules strong { 
-  margin-left: .5em;
+input#translation {
+  margin-bottom: 0;
+  border:1px solid black;
+  color: gray;
 }
+
 
 #notebook {
   display:block;
@@ -40,7 +50,7 @@ div#sentenceEditor {
   font-size: 2em ;
   line-height: 150%;
 
-  border: 1px solid black;
+  border: 1px solid hsl(39, 50%, 41%);
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
   border-radius: 20px;
@@ -71,24 +81,4 @@ li.translation {
   color:black;
 }
 
-p#transliterated, input#plain {
-  text-align: center;
-  padding: .4em;
-  width:90%;
-  height: 1em;
-  overflow-y: hidden;
-  display:block;
-  margin: 1em auto;
-} 
-
-p#transliterated {
-  font-size: x-large;
-}
-
-input#plain {
-  font-size:normal;
-  margin-bottom: 0;
-  border:1px solid black;
-  color: gray;
-}
 

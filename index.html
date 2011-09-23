@@ -18,10 +18,11 @@
 </head>
 <body>
 
-  <div id=sentenceEditor>
-    <input id=plain></input>
-    <p id=transliterated></p>
-  </div>
+  <form id=sentenceEditor>
+    <input class=sentence autofocus tabindex=1 id=plain></input>
+    <input class=translation tabindex=2 id=translation></input>
+    <button type=submit>add</button>
+  </form>
 
   <div id=notebook> 
   <ul id=sentences></ul>
