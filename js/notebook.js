@@ -58,6 +58,7 @@ $(function(){
 
     model : Sentence
 
+
   });
 
 
@@ -66,15 +67,19 @@ $(function(){
 
     events : {
       'click' : 'logModel'
+      //'dblclick' : 'editInPlace'
     },
 
     initialize : function(){
       _.bindAll(this, 'render', 'logModel');
     },
   
+    editInPlace : function(ev){
+      console.log(this.model.get('sentence'));
+    },
+
     logModel : function(ev){
       console.log(this.model.get('sentence'));
-      console.log(this.model.cid);
     },
 
     render : function(){
@@ -89,23 +94,36 @@ $(function(){
     el: '#sentenceEditor',
 
     events : {
-      'keyup #plain' : 'parsePair'
+      'keyup #plain' : 'transliterateInPlace',
+      'submit' : 'addPhrase'
     },
 
     initialize : function(){
-      _.bindAll(this, 'parsePair');
+      _.bindAll(this, 'transliterateInPlace', 'addPhrase');
+      this.collection = Notebook.text;
+    },
+
+    addPhrase : function(ev){
+      ev.preventDefault();
+      var sentence = new Sentence({});
+      sentence.set({
+        'sentence': this.$('.sentence').val(),
+        'translation': this.$('.translation').val(),
+      }); 
+      this.collection.add(sentence);
+      this.$('input').val('');
     },
   
-    parsePair : function(ev){
+    transliterateInPlace : function(ev){
       var transliterated = this.transliterate($(ev.target).val());
-      this.$('p#transliterated').html(transliterated);
+      this.$('input#plain').val(transliterated);
     },
 
     transliterate : function (text){
 
-      var pinyin = [ [ "1", "\u0304" ], [ "2", "\u0301" ], [ "3", "\u030C" ], [ "4", "\u0300" ] ];
+      var rules = [ [ "1", "\u0304" ], [ "2", "\u0301" ], [ "3", "\u030C" ], [ "4", "\u0300" ] ];
 
-      $.each(pinyin, function(i, rule){
+      $.each(rules, function(i, rule){
         var beforeRE = new RegExp(rule[0], 'g'),
             after = rule[1];
 
@@ -114,7 +132,6 @@ $(function(){
       })
       return text;
     }
-
   })
 
   window.TextView = Backbone.View.extend({
@@ -123,15 +140,16 @@ $(function(){
 
     initialize : function(){
       _.bindAll(this, 'render');
+      //this.collection.bind('add', this.render);
+      this.collection.bind('add', this.render, this)
+
     },
 
     render : function(){
-
       this.collection.each(function(sentence){
         var view = new SentenceView({model: sentence});
         this.$('ul#sentences').prepend(view.render().el);
       });
-
       return this;
     }
 
@@ -143,7 +161,7 @@ $(function(){
   Notebook.text.reset(data);
 
   Notebook.textView = new TextView({collection: Notebook.text});
-  Notebook.sentenceEditorView = new SentenceEditorView({});
+  Notebook.sentenceEditorView = new SentenceEditorView({collection: Notebook.text});
   Notebook.textView.render();
 
 })
