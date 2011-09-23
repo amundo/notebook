@@ -58,7 +58,6 @@ $(function(){
 
     model : Sentence
 
-
   });
 
 
@@ -95,12 +94,16 @@ $(function(){
 
     events : {
       'keyup #plain' : 'transliterateInPlace',
-      'submit' : 'addPhrase'
+      'submit' : 'addPhrase',
+      'click #toggleSentenceEditorView' : 'toggleSentenceEditorView'
     },
 
     initialize : function(){
-      _.bindAll(this, 'transliterateInPlace', 'addPhrase');
+      _.bindAll(this, 'transliterateInPlace', 'addPhrase', 'toggleSentenceEditorView');
       this.collection = Notebook.text;
+    },
+
+    toggleSentenceEditorView : function(ev){
     },
 
     addPhrase : function(ev){
@@ -111,7 +114,7 @@ $(function(){
         'translation': this.$('.translation').val(),
       }); 
       this.collection.add(sentence);
-      this.$('input').val('');
+      this.$('input').val('').first().focus();
     },
   
     transliterateInPlace : function(ev){
@@ -157,11 +160,15 @@ $(function(){
 
 
   Notebook = {};
-  Notebook.text = new Text();
+  Notebook.text = new Text({ });
   Notebook.text.reset(data);
 
-  Notebook.textView = new TextView({collection: Notebook.text});
-  Notebook.sentenceEditorView = new SentenceEditorView({collection: Notebook.text});
+  Notebook.textView = new TextView({
+    collection: Notebook.text
+  });
+  Notebook.sentenceEditorView = new SentenceEditorView({
+    collection: Notebook.text
+  });
   Notebook.textView.render();
 
 })
