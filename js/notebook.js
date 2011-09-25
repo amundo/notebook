@@ -56,7 +56,9 @@ $(function(){
 
   window.Text = Backbone.Collection.extend({
 
-    model : Sentence
+    model : Sentence,
+
+    localStorage : new Store('notebook')
 
   });
 
@@ -100,7 +102,6 @@ $(function(){
 
     initialize : function(){
       _.bindAll(this, 'transliterateInPlace', 'addPhrase', 'toggleSentenceEditorView');
-      this.collection = Notebook.text;
     },
 
     toggleSentenceEditorView : function(ev){
@@ -149,6 +150,8 @@ $(function(){
     },
 
     render : function(){
+      this.$('#sentences').empty();
+
       this.collection.each(function(sentence){
         var view = new SentenceView({model: sentence});
         this.$('ul#sentences').prepend(view.render().el);
@@ -158,7 +161,7 @@ $(function(){
 
   });
 
-
+/*
   Notebook = {};
   Notebook.text = new Text({ });
   Notebook.text.reset(data);
@@ -170,5 +173,19 @@ $(function(){
     collection: Notebook.text
   });
   Notebook.textView.render();
+*/
+
+  window.text = new Text({ });
+  window.text.reset(data);
+
+  window.textView = new TextView({
+    collection: window.text
+  });
+
+  window.sentenceEditorView = new SentenceEditorView({
+    collection: window.text
+  });
+
+  window.textView.render();
 
 })
