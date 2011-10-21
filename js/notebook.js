@@ -127,6 +127,7 @@ $(function(){
     },
   
     transliterateInPlace : function(ev){
+      var PinyinTransliterator = new Transliterator({rules: PinyinRules});
       var transliterated = PinyinTransliterator.convert($(ev.target).val());
       this.$('input#plain').val(transliterated);
     },
