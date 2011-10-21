@@ -55,7 +55,16 @@ $(function(){
   ];
 
 
-  window.Sentence = Backbone.Model.extend({ });
+  window.Word = Backbone.Model.extend({ 
+  });
+
+  window.Sentence = Backbone.Model.extend({ 
+    tokenize: function(){
+      var words = this.get('sentence').split(' ');
+      this.set({words: words}); //);
+      console.log(this.get('sentence').split(' '));
+    }
+  });
 
   window.Text = Backbone.Collection.extend({
 
@@ -118,22 +127,12 @@ $(function(){
     },
   
     transliterateInPlace : function(ev){
-      var transliterated = this.transliterate($(ev.target).val());
+      var transliterated = PinyinTransliterator.convert($(ev.target).val());
       this.$('input#plain').val(transliterated);
     },
 
     transliterate : function (text){
 
-      var rules = [ [ "1", "\u0304" ], [ "2", "\u0301" ], [ "3", "\u030C" ], [ "4", "\u0300" ] ];
-
-      $.each(rules, function(i, rule){
-        var beforeRE = new RegExp(rule[0], 'g'),
-            after = rule[1];
-
-        text = text.replace(beforeRE, after);
-
-      })
-      return text;
     }
   })
 
