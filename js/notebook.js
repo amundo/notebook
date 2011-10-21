@@ -1,5 +1,8 @@
 $(function(){
 
+  window.key = localStorage.notebook;
+  window.data = JSON.parse(localStorage['notebook-' + window.key]);
+
   window.data  = [
     {
       "translation": "What do you want to eat? ", 
@@ -67,19 +70,15 @@ $(function(){
     tagName: 'li',
 
     events : {
-      'click' : 'logModel'
+      //'click' : 'logModel'
       //'dblclick' : 'editInPlace'
     },
 
     initialize : function(){
-      _.bindAll(this, 'render', 'logModel');
+      _.bindAll(this, 'render');
     },
   
     editInPlace : function(ev){
-      console.log(this.model.get('sentence'));
-    },
-
-    logModel : function(ev){
       console.log(this.model.get('sentence'));
     },
 
