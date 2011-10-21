@@ -160,7 +160,6 @@ $(function(){
 
   });
 
-/*
   Notebook = {};
   Notebook.text = new Text({ });
   Notebook.text.reset(data);
@@ -172,8 +171,8 @@ $(function(){
     collection: Notebook.text
   });
   Notebook.textView.render();
-*/
 
+/*
   window.text = new Text({ });
   window.text.reset(data);
 
@@ -186,5 +185,6 @@ $(function(){
   });
 
   window.textView.render();
+*/
 
 })
