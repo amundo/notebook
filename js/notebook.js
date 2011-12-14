@@ -83,6 +83,54 @@ $(function(){
     {
         "sentence": "w\u01d2 b\u00f9 ch\u0113 r\u00f2u", 
         "translation": "I don't eat meat."
+    }, 
+    {
+        "sentence": "m\u00e0ng", 
+        "translation": "busy"
+    }, 
+    {
+        "sentence": "w\u01cen", 
+        "translation": "play"
+    }, 
+    {
+        "sentence": "d\u01ce l\u00e1n qi\u00fa", 
+        "translation": "play basketball"
+    }, 
+    {
+        "sentence": "d\u01ce", 
+        "translation": "to beat"
+    }, 
+    {
+        "sentence": "l\u00e1n", 
+        "translation": "basket"
+    }, 
+    {
+        "sentence": "qi\u00fa", 
+        "translation": "ball"
+    }, 
+    {
+        "sentence": "z\u00fa qi\u00fa", 
+        "translation": "football"
+    }, 
+    {
+        "sentence": "z\u00fa", 
+        "translation": "foot"
+    }, 
+    {
+        "sentence": "g\u01cen l\u01cen qi\u00fa", 
+        "translation": "American football"
+    }, 
+    {
+        "sentence": "b\u00e0ng qi\u00fa", 
+        "translation": "baseball"
+    }, 
+    {
+        "sentence": "b\u00e0ng", 
+        "translation": "stick"
+    }, 
+    {
+        "sentence": "m\u011bi sh\u00ec z\u00fa qi\u00fa", 
+        "translation": "American style football"
     }
 ];
 
