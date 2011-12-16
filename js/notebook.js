@@ -167,7 +167,7 @@ $(function(){
     },
   
     editInPlace : function(ev){
-      console.log(this.model.get('sentence'));
+      //console.log(this.model.get('sentence'));
     },
 
     render : function(){
@@ -202,6 +202,7 @@ $(function(){
         'translation': this.$('.translation').val(),
       }); 
       this.collection.add(sentence);
+console.log(this.model);
       this.$('input').val('').first().focus();
     },
   
@@ -242,7 +243,6 @@ $(function(){
   Notebook = {};
   Notebook.text = new Text({ });
   Notebook.text.reset(data);
-
   Notebook.textView = new TextView({
     collection: Notebook.text
   });
@@ -251,19 +251,5 @@ $(function(){
   });
   Notebook.textView.render();
 
-/*
-  window.text = new Text({ });
-  window.text.reset(data);
-
-  window.textView = new TextView({
-    collection: window.text
-  });
-
-  window.sentenceEditorView = new SentenceEditorView({
-    collection: window.text
-  });
-
-  window.textView.render();
-*/
 
 })
