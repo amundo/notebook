@@ -140,7 +140,7 @@ $(function(){
   window.Sentence = Backbone.Model.extend({ 
     tokenize: function(){
       var words = this.get('sentence').split(' ');
-      this.set({words: words}); //);
+      this.set({words: words});
       console.log(this.get('sentence').split(' '));
     }
   });
@@ -159,7 +159,7 @@ $(function(){
 
     events : {
       //'click' : 'logModel'
-      //'dblclick' : 'editInPlace'
+      'dblclick' : 'editInPlace'
     },
 
     initialize : function(){
@@ -167,7 +167,7 @@ $(function(){
     },
   
     editInPlace : function(ev){
-      //console.log(this.model.get('sentence'));
+      console.log(this.model.get('sentence'));
     },
 
     render : function(){
@@ -202,7 +202,6 @@ $(function(){
         'translation': this.$('.translation').val(),
       }); 
       this.collection.add(sentence);
-console.log(this.model);
       this.$('input').val('').first().focus();
     },
   
@@ -225,7 +224,6 @@ console.log(this.model);
       _.bindAll(this, 'render');
       //this.collection.bind('add', this.render);
       this.collection.bind('add', this.render, this)
-
     },
 
     render : function(){
