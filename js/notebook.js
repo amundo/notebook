@@ -134,9 +134,6 @@ $(function(){
     }
 ];
 
-  window.Word = Backbone.Model.extend({ 
-  });
-
   window.Sentence = Backbone.Model.extend({ 
     tokenize: function(){
       var words = this.get('sentence').split(' ');
@@ -152,7 +149,6 @@ $(function(){
     localStorage : new Store('notebook')
 
   });
-
 
   window.SentenceView = Backbone.View.extend({
     tagName: 'li',
@@ -204,7 +200,7 @@ $(function(){
       this.collection.add(sentence);
       this.$('input').val('').first().focus();
     },
-  
+
     transliterateInPlace : function(ev){
       var PinyinTransliterator = new Transliterator({rules: PinyinRules});
       var transliterated = PinyinTransliterator.convert($(ev.target).val());
@@ -214,6 +210,7 @@ $(function(){
     transliterate : function (text){
 
     }
+
   })
 
   window.TextView = Backbone.View.extend({
@@ -228,14 +225,12 @@ $(function(){
 
     render : function(){
       this.$('#sentences').empty();
-
       this.collection.each(function(sentence){
         var view = new SentenceView({model: sentence});
         this.$('ul#sentences').prepend(view.render().el);
       });
       return this;
     }
-
   });
 
   Notebook = {};
