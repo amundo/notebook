@@ -178,16 +178,12 @@ $(function(){
     el: '#sentenceEditor',
 
     events : {
-      'keyup #plain' : 'transliterateInPlace',
-      'submit' : 'addPhrase',
-      'click #toggleSentenceEditorView' : 'toggleSentenceEditorView'
+      'keyup #plain' : 'transliterate',
+      'submit' : 'addPhrase'
     },
 
     initialize : function(){
-      _.bindAll(this, 'transliterateInPlace', 'addPhrase', 'toggleSentenceEditorView');
-    },
-
-    toggleSentenceEditorView : function(ev){
+      _.bindAll(this, 'transliterate', 'addPhrase');
     },
 
     addPhrase : function(ev){
@@ -201,15 +197,12 @@ $(function(){
       this.$('input').val('').first().focus();
     },
 
-    transliterateInPlace : function(ev){
+    transliterate : function(ev){
       var PinyinTransliterator = new Transliterator({rules: PinyinRules});
       var transliterated = PinyinTransliterator.convert($(ev.target).val());
       this.$('input#plain').val(transliterated);
-    },
-
-    transliterate : function (text){
-
     }
+
 
   })
 
