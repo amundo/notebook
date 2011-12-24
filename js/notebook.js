@@ -134,13 +134,10 @@ $(function(){
     }
 ];
 
-  window.Word = Backbone.Model.extend({ 
-  });
-
   window.Sentence = Backbone.Model.extend({ 
     tokenize: function(){
       var words = this.get('sentence').split(' ');
-      this.set({words: words}); //);
+      this.set({words: words});
       console.log(this.get('sentence').split(' '));
     }
   });
@@ -153,13 +150,12 @@ $(function(){
 
   });
 
-
   window.SentenceView = Backbone.View.extend({
     tagName: 'li',
 
     events : {
       //'click' : 'logModel'
-      //'dblclick' : 'editInPlace'
+      'dblclick' : 'editInPlace'
     },
 
     initialize : function(){
@@ -182,16 +178,12 @@ $(function(){
     el: '#sentenceEditor',
 
     events : {
-      'keyup #plain' : 'transliterateInPlace',
-      'submit' : 'addPhrase',
-      'click #toggleSentenceEditorView' : 'toggleSentenceEditorView'
+      'keyup #plain' : 'transliterate',
+      'submit' : 'addPhrase'
     },
 
     initialize : function(){
-      _.bindAll(this, 'transliterateInPlace', 'addPhrase', 'toggleSentenceEditorView');
-    },
-
-    toggleSentenceEditorView : function(ev){
+      _.bindAll(this, 'transliterate', 'addPhrase');
     },
 
     addPhrase : function(ev){
@@ -204,16 +196,14 @@ $(function(){
       this.collection.add(sentence);
       this.$('input').val('').first().focus();
     },
-  
-    transliterateInPlace : function(ev){
+
+    transliterate : function(ev){
       var PinyinTransliterator = new Transliterator({rules: PinyinRules});
       var transliterated = PinyinTransliterator.convert($(ev.target).val());
       this.$('input#plain').val(transliterated);
-    },
-
-    transliterate : function (text){
-
     }
+
+
   })
 
   window.TextView = Backbone.View.extend({
@@ -224,25 +214,21 @@ $(function(){
       _.bindAll(this, 'render');
       //this.collection.bind('add', this.render);
       this.collection.bind('add', this.render, this)
-
     },
 
     render : function(){
       this.$('#sentences').empty();
-
       this.collection.each(function(sentence){
         var view = new SentenceView({model: sentence});
         this.$('ul#sentences').prepend(view.render().el);
       });
       return this;
     }
-
   });
 
   Notebook = {};
   Notebook.text = new Text({ });
   Notebook.text.reset(data);
-
   Notebook.textView = new TextView({
     collection: Notebook.text
   });
@@ -251,19 +237,5 @@ $(function(){
   });
   Notebook.textView.render();
 
-/*
-  window.text = new Text({ });
-  window.text.reset(data);
-
-  window.textView = new TextView({
-    collection: window.text
-  });
-
-  window.sentenceEditorView = new SentenceEditorView({
-    collection: window.text
-  });
-
-  window.textView.render();
-*/
 
 })
