@@ -75,15 +75,13 @@ $(function(){
 
   sentences = new Sentences();
 
-  var App = Backbone.View.extend({
+  var Project = Backbone.View.extend({
 
     el : '#desk',
 
     events : {
       'keyup input' : 'createOnEnter',
-      //'keyup input#translation' : 'filterTranslations',
       'keyup input#sentence' : 'sentenceKeyup',
-      //'keyup input#sentence' : 'translationKeyup',
     },
 
     initialize: function(){ 
@@ -138,7 +136,7 @@ $(function(){
 
   });
 
-  var app = new App();
+  window.project = new Project();
 
 });
 </script>

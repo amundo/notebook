@@ -30,7 +30,6 @@ var Transliterator = function(options){
 
     return text;
   }
-
 }
 
 

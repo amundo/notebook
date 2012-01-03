@@ -100,6 +100,7 @@ span.translation {
 }
 
 #desk {
+  border-top: 1px solid hsla(400, 100%, 40%, .5);
   padding: 1em;
 }
 
@@ -126,13 +127,6 @@ span.translation {
   width: 80%;
 }
 
-#notebook #search_sentences:after{
-  background: url(../images/magnify.png) right center no-repeat;
-  display: inline-block;
-  width: 2em;
-}
-
-
 #notebook {
   display:block;
   float:left;
@@ -154,8 +148,16 @@ span.translation {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 
+
   background:white;
 }
+
+#notebook #search_sentences:after{
+  background: url(../images/magnify.png) right center no-repeat;
+  display: inline-block;
+  width: 2em;
+}
+
 
 .entry:hover { 
   border-bottom: 1px dotted hsla(255, 10%, 90%, .5);
