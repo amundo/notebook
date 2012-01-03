@@ -17,15 +17,10 @@ $(function(){
 
   var Sentence  = Backbone.Model.extend({
     initialize: function(){
-      _.bindAll(this, 'toggleHidden');
       this.set({
         'timestamp' :  Number(new Date()),
         'order' : sentences.nextOrder()
       });
-    },
-
-    toggleHidden : function(){
-      this.save({hidden: !this.get('hidden')});
     },
 
   });
@@ -52,12 +47,6 @@ $(function(){
 
   var SentenceView = Backbone.View.extend({
 
-    defaults : function(){
-      return {
-       'hidden' : false
-      }
-    },
-
     events : {
       'click .sentence-destroy' : 'remove'
     },
@@ -78,9 +67,7 @@ $(function(){
     render : function(){
       var sentenceTemplate = $('#sentenceTemplate').html(); 
       var html = _.template(sentenceTemplate, this.model.toJSON());
-      if(!this.model.get('hidden')){
-        $(this.el).html(html);
-      }
+      $(this.el).html(html);
       return this;
     }
 
