@@ -161,7 +161,8 @@ $(function(){
 
 <script id=sentenceTemplate type=text/html>
 <p class=entry>
-<%= order  %>
+  
+  <span class=order   ><%= order  %></span> 
   <span class=sentence   ><%= sentence    %></span> 
   <button class=sentence-destroy>x</button>
   <span class=translation><%= translation %></span>
@@ -171,14 +172,13 @@ $(function(){
 <div id=toolbox>
 
   <ul>
-    <li><a href=export>export</a>
-    <li>things
-    <li>things
+    <li><a href=about.html>about notebook</a>
   </ul>
 </div>
 
 
 <div id=desk>
+  <a title=toolbox id=toggleToolbox>&#x2699;</a>
   <div id=notebook>
     <div id=sentences> </div>
   </div>
