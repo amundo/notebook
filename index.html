@@ -16,17 +16,11 @@
 $(function(){
 
   var Sentence  = Backbone.Model.extend({
-    defaults : function(){ 
-      return {
-        order: sentences.nextOrder(),
-        hidden: false
-      }
-    },
-
     initialize: function(){
       _.bindAll(this, 'toggleHidden');
       this.set({
-        'timestamp' :  Number(new Date())
+        'timestamp' :  Number(new Date()),
+        'order' : sentences.nextOrder()
       });
     },
 
@@ -49,7 +43,7 @@ $(function(){
     },
 
     comparator : function(model){
-      return -1 * model.get('order');
+      return model.get('order');
     },
 
     localStorage : new Store('sentences')
