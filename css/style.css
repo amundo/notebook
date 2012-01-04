@@ -12,7 +12,6 @@ span.translation, span.sentence {
   color:  hsla(200, 30%, 50%, .8);
   font-size:small;
   font-style: italic;
-  margin-left: -2em;
 }
 
 span.sentence { 
@@ -37,16 +36,8 @@ span.translation {
 }
 
 #sentences { 
-  display: -moz-box;
-  -moz-box-orient: vertical;
-  -moz-box-direction: reverse;
-  padding: 1em;
 }
 
-#sentences > div { 
-  -moz-box-align:stretch;
-  width: 90%;
-}
 
 #card {
   background: white;
@@ -92,33 +83,26 @@ span.translation {
   padding: 1em;
 }
 
-#toggleToolbox {
-  float:left;
+#desk nav {
+  width: 25px;
+  display: flexbox;
+}
+
+#desk nav a {
   margin: 0 .5em 0  0;
   padding: 4px;
   color: hsla(0, 10%, 50%, .5);
-}
-
-#toggleToolbox:hover {
-  color: hsla(0, 100%, 0%, 1);
-  text-shadow: -2px 2px 2px  hsla(0, 100%, 0%, .4);
   cursor: pointer;
 }
 
-#search_box{
-  display:none;
-  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  font-size: large;
-  float:right;
-  top: 30em;
-  width: 80%;
+#desk nav a:hover { 
+  color: hsla(0, 100%, 0%, 1);
+  text-shadow: -2px 2px 2px  hsla(0, 100%, 0%, .4);
 }
 
 #notebook {
   display:block;
   float:left;
-
   min-height: 500px;
   height: 50%;
   width: 50%;
@@ -140,37 +124,54 @@ span.translation {
   background:white;
 }
 
-#notebook #search_sentences:after{
+#notebook #search_sentences:after {
   background: url(../images/magnify.png) right center no-repeat;
   display: inline-block;
   width: 2em;
 }
 
 
-.entry:hover { 
-  border-bottom: 1px dotted hsla(255, 10%, 90%, .5);
+#notebook .controls { 
+  text-align:right; 
+  padding: 0 1em; 
+}
+
+#notebook .controls { 
+  float:right;
+}
+
+#notebook .controls a { 
   cursor: pointer;
 }
 
 .entry { 
-  border-bottom: 1px dotted hsla(255, 100%, 100%, .5);
+  padding: 0;
+  width: 90%;
+  overflow:auto;
+}
+
+.entry nav { 
+  text-align:right;
+  width: 2em;
+  float:left;
+  padding: 0 .5em;
+}
+
+.entry .gloss { 
+  float:left;
+  width: 60%;
+  padding: 0 .5em;
+  margin-left: 2em;
+}
+
+.sentence-destroy { 
+  font-weight: bold;
+  color:   hsla(255, 50%, 75%, .5);
 }
 
 .sentence-destroy:hover { 
   cursor: pointer;
-  color: hsla(0, 100%, 80%, 1);
-}
-
-.sentence-destroy { 
-  width: 1em; 
-  color:hsla(255, 10%, 90%, .5);
-  font-weight: bold;
-  float:right;
-  display:inline-block;
-  background:none;
-  border:none;
-  font-size:x-large;
-  text-align:center;
+  color:  red;
 }
 
 #toolbox { 
@@ -195,11 +196,9 @@ span.translation {
 
 #toolbox ul li { 
   background: white;
-
--moz-box-shadow: inset 0 -2px 2px hsla(100, 0%, 60%, .5);
--webkit-box-shadow: inset 0 -2px 2px hsla(100, 0%, 60%, .5);
-box-shadow: inset 0 -2px 2px hsla(100, 0%, 60%, .5);
-  border-top: 1px solid hsla(0, 100%, 50%, .5);
+  -moz-box-shadow: inset 0 -2px 2px hsla(100, 0%, 60%, .5);
+  -webkit-box-shadow: inset 0 -2px 2px hsla(100, 0%, 60%, .5);
+  box-shadow: inset 0 -2px 2px hsla(100, 0%, 60%, .5);
   padding: 1em;
   margin-top: .5em;
   margin-right: .5em;
@@ -213,3 +212,5 @@ box-shadow: inset 0 -2px 2px hsla(100, 0%, 60%, .5);
 #help { 
   display:none;
 }
+
+

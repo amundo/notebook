@@ -26,12 +26,14 @@
 </script>
 
 <script id=sentenceTemplate type=text/html>
-<p class=entry>
-  <span class=order><%= order  %></span> 
-  <span class=sentence><%= sentence    %></span> 
-  <button class=sentence-destroy>x</button>
-  <span class=translation><%= translation %></span>
-</p>
+  <nav>
+    <span class=order>#<%= order  %></span>
+    <span class=sentence-destroy title="delete this sentence">x</span>
+  </nav>
+  <div class=gloss>
+    <p class=sentence><%= sentence    %></p> 
+    <p class=translation><%= translation %></p>
+  </div>
 </script>
 
 <div id=toolbox>
@@ -43,16 +45,17 @@
 </div>
 
 <div id=desk>
-  <a title=toolbox id=toggleToolbox>&#x2699;</a>
-
-  <div id=help>
-    <h1>important help</h1>
-  </div>
+  <nav>
+    <a title=toolbox id=toggleToolbox>&#x2699;</a>
+  </nav>
 
   <ul id=lexicon>
   </ul>
 
   <div id=notebook>
+    <p class=controls>
+      <a id=toggleCard>&#x2710;</a>
+    </p>
     <div id=sentences> </div>
   </div>
 

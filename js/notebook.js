@@ -56,6 +56,8 @@ $(function(){
 
   var SentenceView = Backbone.View.extend({
 
+    className : 'entry',
+
     events : {
       'click .sentence-destroy' : 'remove',
       'click .sentence' : 'listWords'
@@ -97,11 +99,12 @@ $(function(){
       'keyup input' : 'createOnEnter',
       'keyup input#sentence' : 'sentenceKeyup',
       'click a#toggleToolbox' : 'toggleToolbox',
+      'click a#toggleCard' : 'toggleCard'
     },
 
     initialize: function(){ 
   
-      _.bindAll(this, 'sentenceKeyup', 'toggleToolbox', 'transliterate', 'createOnEnter', 'search');
+      _.bindAll(this, 'sentenceKeyup', 'toggleToolbox', 'toggleToolbox', 'transliterate', 'createOnEnter', 'search');
 
       text.bind('add',   this.addOne, this);
       text.bind('reset', this.addAll, this);
@@ -117,6 +120,10 @@ $(function(){
         var view = new SentenceView({model: sentence});
         this.$('#sentences').append(view.render().el);
       })
+    },
+
+    toggleCard : function(){
+      views.card.fadeToggle()
     },
 
     toggleToolbox : function(){
