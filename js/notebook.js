@@ -13,6 +13,7 @@ $(function(){
       this.set({
         'timestamp' :  Number(new Date()),
         'order' : text.nextOrder(),
+        'indexed' : false
       });
 
     },
@@ -25,6 +26,12 @@ $(function(){
 
   var Text = Backbone.Collection.extend({
 
+    initialize : function(options){
+      _.bindAll(this, 'index');
+    },
+
+    lexicon : [],
+
     model : Sentence,
 
     localStorage : new Store('text'),
@@ -32,6 +39,12 @@ $(function(){
     nextOrder : function(model){
       if (!this.length) return 1;
       return this.last().get('order') + 1;
+    },
+
+    index : function(){
+      this.each(function(s){
+        Text.lexicon.push(s.get('words'))
+      })    
     },
 
     comparator : function(model){
@@ -83,11 +96,12 @@ $(function(){
     events : {
       'keyup input' : 'createOnEnter',
       'keyup input#sentence' : 'sentenceKeyup',
+      'click a#toggleToolbox' : 'toggleToolbox',
     },
 
     initialize: function(){ 
   
-      _.bindAll(this, 'sentenceKeyup', 'transliterate', 'createOnEnter', 'search');
+      _.bindAll(this, 'sentenceKeyup', 'toggleToolbox', 'transliterate', 'createOnEnter', 'search');
 
       text.bind('add',   this.addOne, this);
       text.bind('reset', this.addAll, this);
@@ -105,12 +119,14 @@ $(function(){
       })
     },
 
+    toggleToolbox : function(){
+      views.toolbox.toggle()
+    },
+
     search : function(query){
     },
 
     transliterate : function(ev){
-      //var PinyinTransliterator = new Transliterator({rules: PinyinRules});
-      //var transliterated = PinyinTransliterator.convert($(ev.target).val());
       var transliterated = language.transliterate($(ev.target).val());
       this.$('input#sentence').val(transliterated);
     },
@@ -150,12 +166,18 @@ $(function(){
     routes: {
       "help":                 "help",    // #help
       "search/:query":        "search",  // #search/kiwis
+      "lexicon":        "lexicon",  // #search/kiwis
       "*actions/:query": "defaultRoute" ,
     },
 
     help: function() {
       console.log('help');
     },
+
+    lexicon: function() {
+      
+    },
+
 
     search: function(query) {
       console.log('searching for: ' + query);
@@ -166,6 +188,14 @@ $(function(){
     }
 
   });
+
+  views = { 
+    notebook : $('#notebook'),
+    help : $('#help'),
+    card : $('#card'),
+    toolbox : $('#toolbox'),
+    lexicon : $('#lexicon')
+  };
 
   window.language = languages.at(1);
   window.project = new Project();

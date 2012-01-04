@@ -21,6 +21,10 @@
 </head>
 <body>
 
+<script id=wordTemplate type=text/html>
+  <li class=word><%= word %></li>
+</script>
+
 <script id=sentenceTemplate type=text/html>
 <p class=entry>
   <span class=order><%= order  %></span> 
@@ -39,6 +43,13 @@
 
 <div id=desk>
   <a title=toolbox id=toggleToolbox>&#x2699;</a>
+
+  <div id=help>
+    <h1>important help</h1>
+  </div>
+
+  <ul id=lexicon>
+  </ul>
 
   <div id=notebook>
     <div id=sentences> </div>
