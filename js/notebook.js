@@ -120,7 +120,7 @@ $(function(){
     },
 
     toggleToolbox : function(){
-      views.toolbox.toggle()
+      views.toolbox.slideToggle()
     },
 
     search : function(query){

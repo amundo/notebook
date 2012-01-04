@@ -45,6 +45,7 @@ span.translation {
 
 #sentences > div { 
   -moz-box-align:stretch;
+  width: 90%;
 }
 
 #card {
