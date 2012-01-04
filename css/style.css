@@ -36,7 +36,14 @@ span.translation {
 }
 
 #sentences { 
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-direction: reverse;
   padding: 1em;
+}
+
+#sentences > div { 
+  -moz-box-align:stretch;
 }
 
 #card {
