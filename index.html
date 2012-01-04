@@ -1,166 +1,22 @@
 <!doctype html>
 <html>
 <head>
-<title>Field Notebook</title>
-<meta charset=utf-8>
-<link rel="icon" type="image/png" href="images/favicon.png">
-<link rel=stylesheet href=css/style.css>
-<script src=js/jquery.js></script>
-<script src=js/underscore.js></script>
-<script src=js/backbone.js></script>
-<script src=js/backbone-localstorage.js></script>
+  <title>Field Notebook</title>
+  <meta charset=utf-8>
 
-<script src=js/textual.js></script>
-<script src=js/pinyin.js></script>
-<script src=js/language.js></script>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel=stylesheet href=css/style.css>
 
-<script>
-$(function(){
-
-  var Sentence  = Backbone.Model.extend({
-    initialize: function(options){
-
-      this.language = options.language;
-
-      _.bindAll(this, 'tokenize');
-     
-      this.set({
-        'timestamp' :  Number(new Date()),
-        'order' : text.nextOrder()
-      });
-
-    },
- 
-    tokenize : function(){
-      return this.get('sentence').split(/([ \?])/);
-    }
-
-  });
-
-  var Text = Backbone.Collection.extend({
-
-    model : Sentence,
-
-    nextOrder : function(model){
-      if (!this.length) return 1;
-      return this.last().get('order') + 1;
-    },
-
-    words : function(){
-      
-    },
-
-    comparator : function(model){
-      return model.get('order');
-    },
-
-    localStorage : new Store('text')
-
-  });
-
-  var SentenceView = Backbone.View.extend({
-
-    events : {
-      'click .sentence-destroy' : 'remove',
-      'click .sentence' : 'listWords'
-    },
-
-    template : _.template($('#sentenceTemplate').html()),
-
-    initialize : function(){
-      _.bindAll(this, 'remove', 'listWords');
-      this.model.bind('change', this.render, this); 
-    },
-
-    remove : function(){
-      if (window.confirm("Remove?")) { 
-        this.model.destroy();
-      }
-    },
-
-    listWords : function(){
-      console.log(this.model.tokenize());
-    },
-
-    render : function(){
-      var sentenceTemplate = $('#sentenceTemplate').html(); 
-      var html = _.template(sentenceTemplate, this.model.toJSON());
-      $(this.el).html(html);
-      return this;
-    }
-
-  });
-
-  text = new Text();
-
-  var Project = Backbone.View.extend({
-
-    el : '#desk',
-
-    events : {
-      'keyup input' : 'createOnEnter',
-      'keyup input#sentence' : 'sentenceKeyup',
-    },
-
-    initialize: function(){ 
+  <script src=js/jquery.js></script>
+  <script src=js/underscore.js></script>
+  <script src=js/backbone.js></script>
+  <script src=js/backbone-localstorage.js></script>
   
-      _.bindAll(this, 'sentenceKeyup', 'transliterate', 'createOnEnter' );
-
-      text.bind('add',   this.addOne, this);
-      text.bind('reset', this.addAll, this);
-      text.bind('all',   this.render, this);
-
-      text.fetch();
-    
-    },
-
-    render : function(){
-      this.$('#sentences').html('');
-      text.each(function(sentence){
-        var view = new SentenceView({model: sentence});
-        this.$('#sentences').append(view.render().el);
-      })
-    },
-
-    transliterate : function(ev){
-      //var PinyinTransliterator = new Transliterator({rules: PinyinRules});
-      //var transliterated = PinyinTransliterator.convert($(ev.target).val());
-      var transliterated = mandarin.transliterate($(ev.target).val());
-      this.$('input#sentence').val(transliterated);
-    },
-
-    sentenceKeyup : function(ev){
-      this.transliterate(ev);
-    },
-
-    translationKeyup : function(ev){
-    },
-
-    createOnEnter : function(ev){
-      if(ev.keyCode == 13){
-        text.create({
-          'sentence': $('#sentence').val(),
-          'translation': $('#translation').val()
-        });
-        $('#card input').val('');
-      $('#card input').first().focus();
-      }
-    },
-
-    addOne : function(sentence){
-    
-    },
-
-    addAll : function(){
-    }
-
-  });
-
-  window.project = new Project();
-  window.mandarin = languages.at(1);
-
-});
-</script>
+  <script src=js/textual.js></script>
+  <script src=js/pinyin.js></script>
+  <script src=js/language.js></script>
+  
+  <script src=js/notebook.js></script>
 
 </head>
 <body>
@@ -183,7 +39,9 @@ $(function(){
 
 
 <div id=desk>
+
   <a title=toolbox id=toggleToolbox>&#x2699;</a>
+
   <div id=notebook>
     <div id=sentences> </div>
   </div>
@@ -192,13 +50,11 @@ $(function(){
     <input class=sentence id=sentence placeholder=sentence autofocus >
     <input class=translation  placeholder=translation id=translation >
     <ol>
-      <li>Tokenize sentences on creation
       <li>Add a WordIndex object to the project
     </ol>
   </div>
 
-
-</div>
+</div><!-- #desk -->
 
 </body>
 </html>
