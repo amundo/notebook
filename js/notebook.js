@@ -1,9 +1,5 @@
 
-window.q = { 
-
-  show : function(o){ console.log(JSON.stringify(o, null,2)) }
-
-};
+var show = function(o){ console.log(JSON.stringify(o, null,2)) }
 
 
 $(function(){
@@ -12,6 +8,8 @@ $(function(){
     initialize: function(options){
       _.bindAll(this, 'tokenize');
      
+      this.set({words : this.tokenize(this.get()) });
+
       this.set({
         'timestamp' :  Number(new Date()),
         'order' : text.nextOrder(),
@@ -20,7 +18,7 @@ $(function(){
     },
  
     tokenize : function(){
-      return mandarin.tokenize(this.get('sentence'));
+      return language.tokenize(this.get('sentence'));
     }
 
   });
@@ -29,20 +27,17 @@ $(function(){
 
     model : Sentence,
 
+    localStorage : new Store('text'),
+
     nextOrder : function(model){
       if (!this.length) return 1;
       return this.last().get('order') + 1;
     },
 
-    words : function(){
-      
-    },
-
     comparator : function(model){
       return model.get('order');
-    },
+    }
 
-    localStorage : new Store('text')
 
   });
 
@@ -113,7 +108,7 @@ $(function(){
     transliterate : function(ev){
       //var PinyinTransliterator = new Transliterator({rules: PinyinRules});
       //var transliterated = PinyinTransliterator.convert($(ev.target).val());
-      var transliterated = mandarin.transliterate($(ev.target).val());
+      var transliterated = language.transliterate($(ev.target).val());
       this.$('input#sentence').val(transliterated);
     },
 
@@ -144,7 +139,7 @@ $(function(){
 
   });
 
+  window.language = languages.at(1);
   window.project = new Project();
-  window.mandarin = languages.at(1);
 
 });

@@ -1,13 +1,13 @@
 /*
 
-  language.js - code specific to processing a single language
+  language.js - representations of languages
 
 */
 
 var Language = Backbone.Model.extend({
 
   defaults :  {
-    code : 'cmn',
+    code : 'unknown',
     tokenPATTERN : '([ \?\.\!]+)',
     scheme : [ ],
   },
@@ -18,7 +18,10 @@ var Language = Backbone.Model.extend({
   },
 
   transliterate : function(text){
-    _.each(this.get('scheme'), function([before, after]){
+    var scheme = this.get('scheme');
+    _.each(scheme, function(pair){
+      var before =  pair[0];
+      var after =  pair[1];
       text = text.replace(before, after, 'g');
     });
 
@@ -30,6 +33,7 @@ var Language = Backbone.Model.extend({
     var tokenRE = new RegExp( this.get('tokenPATTERN') , 'g' );
     var tokens = text.split(tokenRE);
 
+    /* factor this into an isWhitespace method */
     return _.reject(tokens, function(e){ return e.match(/^[ ]*$/) } );
   }
    
@@ -96,5 +100,6 @@ var chinese = {
 
 };
 
+//window.language  = new Languages([chinese]);
 window.languages  = new Languages([kashaya, chinese]);
 
