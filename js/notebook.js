@@ -87,7 +87,7 @@ $(function(){
 
     initialize: function(){ 
   
-      _.bindAll(this, 'sentenceKeyup', 'transliterate', 'createOnEnter' );
+      _.bindAll(this, 'sentenceKeyup', 'transliterate', 'createOnEnter', 'search');
 
       text.bind('add',   this.addOne, this);
       text.bind('reset', this.addAll, this);
@@ -103,6 +103,9 @@ $(function(){
         var view = new SentenceView({model: sentence});
         this.$('#sentences').append(view.render().el);
       })
+    },
+
+    search : function(query){
     },
 
     transliterate : function(ev){
@@ -139,7 +142,34 @@ $(function(){
 
   });
 
+  var Router = Backbone.Router.extend({
+
+    initialize: function(){
+    },
+
+    routes: {
+      "help":                 "help",    // #help
+      "search/:query":        "search",  // #search/kiwis
+      "*actions/:query": "defaultRoute" ,
+    },
+
+    help: function() {
+      console.log('help');
+    },
+
+    search: function(query) {
+      console.log('searching for: ' + query);
+    },
+
+    defaultRoute: function(query) {
+        console.log(query);
+    }
+
+  });
+
   window.language = languages.at(1);
   window.project = new Project();
+  window.router = new Router();
+  Backbone.history.start({});
 
 });
