@@ -28,7 +28,8 @@
 <script id=entryTemplate type=text/html>
   <nav>
     <span class=order>#<%= order  %></span>
-    <span class=sentence-destroy title="delete this sentence">x</span>
+    <button class=sentence-destroy title="delete this sentence">&#X00D7;</button>
+    <button class=sentence-gloss title="edit gloss">&#X21C5;</button>
   </nav>
   <div class=gloss>
     <p class=sentence><%= sentence    %></p> 
@@ -39,7 +40,7 @@
 <div id=toolbox>
   <ul>
     <li><a class=nav href=#about>about notebook</a>
-    <li><a class=nav href=#project>project</a>
+    <li><a class=nav href=#metadata>projects</a>
     <li><a class=nav href=#lexicon>lexicon</a>
   </ul>
 </div>
@@ -47,15 +48,16 @@
 <div id=desk>
   <nav>
     <a title=toolbox id=toggleToolbox>&#x2699;</a>
+    <a id=toggleCard>&#x2710;</a>
   </nav>
 
   <ul id=lexicon>
   </ul>
 
+  <div id=glosser>
+  </div>
+
   <div id=notebook>
-    <p class=controls>
-      <a id=toggleCard>&#x2710;</a>
-    </p>
     <div id=sentences> </div>
   </div>
 

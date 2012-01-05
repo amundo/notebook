@@ -8,12 +8,11 @@ $(function(){
     initialize: function(options){
       _.bindAll(this, 'tokenize');
      
-      this.set({words : this.tokenize(this.get()) });
+      this.set({words : this.tokenize()});
 
       this.set({
         'timestamp' :  Number(new Date()),
         'order' : text.nextOrder(),
-        'indexed' : false
       });
 
     },
@@ -60,13 +59,14 @@ $(function(){
 
     events : {
       'click .sentence-destroy' : 'remove',
-      'click .sentence' : 'listWords'
+      'click .sentence' : 'listWords',
+      'click .sentence-gloss' : 'editGloss'
     },
 
     template : _.template($('#entryTemplate').html()),
 
     initialize : function(){
-      _.bindAll(this, 'remove', 'listWords');
+      _.bindAll(this, 'remove', 'editGloss', 'listWords');
       this.model.bind('change', this.render, this); 
     },
 
@@ -74,6 +74,10 @@ $(function(){
       if (window.confirm("Remove?")) { 
         this.model.destroy();
       }
+    },
+
+    editGloss : function(){
+      console.log(show(this.model.get('gloss')));
     },
 
     listWords : function(){
@@ -197,6 +201,7 @@ $(function(){
 
   views = { 
     notebook : $('#notebook'),
+    glosser : $('#glosser'),
     help : $('#help'),
     card : $('#card'),
     toolbox : $('#toolbox'),

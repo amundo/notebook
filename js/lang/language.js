@@ -8,7 +8,7 @@ var Language = Backbone.Model.extend({
 
   defaults :  {
     code : 'unknown',
-    tokenPATTERN : '([ \?\.\!]+)',
+    tokenPATTERN : '([ \\?\\.\!]+)',
     scheme : [ ],
   },
 
@@ -89,7 +89,7 @@ var chinese = {
     'en' : 'Mandarin'
   },
 
-  tokenPATTERN : '([ \\?])',
+    tokenPATTERN : '([ \\?\\.\!]+)',
 
   scheme : [
     [ "1", "\u0304" ], 

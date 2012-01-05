@@ -38,7 +38,7 @@ span.translation {
   background: white;
   position: relative;
   margin: 1em;
-  float:right;
+  float:left;
   width: 40%;
   padding: 1em;
   -webkit-box-shadow: -5px 4px 6px 2px rgba(5, 5, 5, .2);
@@ -97,7 +97,7 @@ span.translation {
 
 #notebook {
   display:block;
-  float:left;
+  float:right;
   min-height: 500px;
   height: 50%;
   width: 50%;
@@ -161,12 +161,15 @@ span.translation {
   margin-left: 2em;
 }
 
-.sentence-destroy { 
+.entry nav button { 
+  background:none;
+  border:none;
+  font-size:large;
   font-weight: bold;
   color:   hsla(255, 50%, 75%, .5);
 }
 
-.sentence-destroy:hover { 
+.entry nav button:hover { 
   cursor: pointer;
   color:  red;
 }
