@@ -54,7 +54,7 @@ $(function(){
 
   });
 
-  var SentenceView = Backbone.View.extend({
+  var EntryView = Backbone.View.extend({
 
     className : 'entry',
 
@@ -63,7 +63,7 @@ $(function(){
       'click .sentence' : 'listWords'
     },
 
-    template : _.template($('#sentenceTemplate').html()),
+    template : _.template($('#entryTemplate').html()),
 
     initialize : function(){
       _.bindAll(this, 'remove', 'listWords');
@@ -81,8 +81,7 @@ $(function(){
     },
 
     render : function(){
-      var sentenceTemplate = $('#sentenceTemplate').html(); 
-      var html = _.template(sentenceTemplate, this.model.toJSON());
+      var html = this.template(this.model.toJSON());
       $(this.el).html(html);
       return this;
     }
@@ -117,7 +116,7 @@ $(function(){
     render : function(){
       this.$('#sentences').html('');
       text.each(function(sentence){
-        var view = new SentenceView({model: sentence});
+        var view = new EntryView({model: sentence});
         this.$('#sentences').append(view.render().el);
       })
     },

@@ -17,11 +17,6 @@ span.translation, span.sentence {
 span.sentence { 
 }
 
-.entry { 
-  overflow:auto;
-  border-bottom:  1px solid hsla(200, 80%, 90%, 1);
-  padding-left: 2em;
-}
 
 span.translation { 
   display:block;
@@ -145,9 +140,11 @@ span.translation {
 }
 
 .entry { 
+  border-right: 1px dashed lightblue;
   padding: 0;
   width: 90%;
   overflow:auto;
+  border-bottom:  1px solid hsla(200, 80%, 90%, 1);
 }
 
 .entry nav { 
