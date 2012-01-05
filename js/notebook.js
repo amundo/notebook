@@ -12,7 +12,7 @@ $(function(){
 
       this.set({
         'timestamp' :  Number(new Date()),
-        'order' : text.nextOrder(),
+        'order' : entryBook.nextOrder(),
       });
 
     },
@@ -23,7 +23,7 @@ $(function(){
 
   });
 
-  var Text = Backbone.Collection.extend({
+  var EntryBook = Backbone.Collection.extend({
 
     initialize : function(options){
       _.bindAll(this, 'index');
@@ -33,7 +33,7 @@ $(function(){
 
     model : Sentence,
 
-    localStorage : new Store('text'),
+    localStorage : new Store('entryBook'),
 
     nextOrder : function(model){
       if (!this.length) return 1;
@@ -42,7 +42,7 @@ $(function(){
 
     index : function(){
       this.each(function(s){
-        Text.lexicon.push(s.get('words'))
+        EntryBook.lexicon.push(s.get('words'))
       })    
     },
 
@@ -92,7 +92,31 @@ $(function(){
 
   });
 
-  text = new Text();
+  entryBook = new EntryBook();
+
+  var ToolboxView = Backbone.View.extend({
+
+    el : '#toolbox',
+
+    initialize : function(){ 
+      _.bindAll(this, 'exportData');
+    },
+
+    events : { 
+
+      'click #export-button' : 'exportData'
+
+    },
+
+    exportData : function(){ 
+
+      var data = JSON.stringify(entryBook, null,2);
+      $('#desk').html('<pre>' + data + '</pre>')
+
+    }
+
+  });
+  
 
   var Project = Backbone.View.extend({
 
@@ -109,17 +133,17 @@ $(function(){
   
       _.bindAll(this, 'sentenceKeyup', 'toggleToolbox', 'toggleToolbox', 'transliterate', 'createOnEnter', 'search');
 
-      text.bind('add',   this.addOne, this);
-      text.bind('reset', this.addAll, this);
-      text.bind('all',   this.render, this);
+      entryBook.bind('add',   this.addOne, this);
+      entryBook.bind('reset', this.addAll, this);
+      entryBook.bind('all',   this.render, this);
 
-      text.fetch();
+      entryBook.fetch();
     
     },
 
     render : function(){
       this.$('#sentences').html('');
-      text.each(function(sentence){
+      entryBook.each(function(sentence){
         var view = new EntryView({model: sentence});
         this.$('#sentences').append(view.render().el);
       })
@@ -150,7 +174,7 @@ $(function(){
 
     createOnEnter : function(ev){
       if(ev.keyCode == 13){
-        text.create({
+        entryBook.create({
           'sentence': $('#sentence').val(),
           'translation': $('#translation').val()
         });
@@ -208,6 +232,7 @@ $(function(){
     lexicon : $('#lexicon')
   };
 
+  window.toolbox = new ToolboxView();
   window.language = languages.at(1);
   window.project = new Project();
   window.router = new Router();
