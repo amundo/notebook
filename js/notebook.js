@@ -94,6 +94,36 @@ $(function(){
 
   entryBook = new EntryBook();
 
+  var Source = Backbone.Model.extend({ });
+
+  var Sources = Backbone.Collection.extend({
+    model : Source
+  });
+
+  var ImporterView = Backbone.View.extend({
+
+    el : '#importer',
+
+    initialize : function(){ 
+      _.bindAll(this, 'importData');
+    },
+
+    events : { 
+
+      'click #import-button' : 'importData'
+
+    },
+
+    toggle : function(){ 
+      $(this.el).fadeToggle()
+    },
+
+    importData : function(){ 
+
+    }
+
+  });
+  
   var ToolboxView = Backbone.View.extend({
 
     el : '#toolbox',
@@ -227,15 +257,20 @@ $(function(){
     notebook : $('#notebook'),
     glosser : $('#glosser'),
     help : $('#help'),
+    importer : $('#importer'),
     card : $('#card'),
     toolbox : $('#toolbox'),
     lexicon : $('#lexicon')
   };
 
+  window.importer = new ImporterView();
   window.toolbox = new ToolboxView();
   window.language = languages.at(1);
   window.project = new Project();
   window.router = new Router();
+  /*$.getJSON('data/kju.js').success(function(data){
+    entryBook.reset(data);
+  })*/
   Backbone.history.start({});
 
 });

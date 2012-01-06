@@ -36,7 +36,7 @@ span.translation {
 
 #card {
   background: white;
-  position: relative;
+  position: fixed;
   margin: 1em;
   float:left;
   width: 40%;
@@ -189,19 +189,19 @@ span.translation {
   padding: 1em 0 0 0;
 }
 
-#toolbox ul { 
+#toolbox { 
   margin: 0;
-  padding:1em;
+  padding:1em 0 0 1em ;
 }
 
-#toolbox ul li { 
+#toolbox button { 
   background: white;
+  border:none;
   -moz-box-shadow: inset 0 -2px 2px hsla(100, 0%, 60%, .5);
   -webkit-box-shadow: inset 0 -2px 2px hsla(100, 0%, 60%, .5);
   box-shadow: inset 0 -2px 2px hsla(100, 0%, 60%, .5);
   padding: 1em;
-  margin-top: .5em;
-  margin-right: .5em;
+  margin-right: .5em 0 0 .5em;
   display:inline;
 }
 
@@ -213,4 +213,24 @@ span.translation {
   display:none;
 }
 
+#importer {
+  position: fixed;
+  display: none;
+  background: hsla(80,10%,30%, .8);
+  left: 0px;
+  top: 0px;
+  width:100%;
+  height:100%;
+  text-align:center;
+  z-index: 1000;
+}
 
+#importer div {
+  width:800px;
+  min-height:300px;
+  margin: 100px auto;
+  background-color: #fff;
+  border:1px solid #000;
+  padding:15px;
+  text-align:center;
+}

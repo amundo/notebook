@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html manifest=local.manifest>
 <head>
   <title>Field Notebook</title>
   <meta charset=utf-8>
@@ -38,12 +38,11 @@
 </script>
 
 <div id=toolbox>
-  <ul>
-    <li><a class=nav id=about-button  href=#about>about notebook</a>
-    <li><a class=nav id=metadata-button href=#metadata>projects</a>
-    <li><a class=nav id=lexicon-button  href=#lexicon>lexicon</a>
-    <li><a class=nav id=export-button  href=#export>export</a>
-  </ul>
+    <button class=nav id=about-button  href=#about>about notebook</button>
+    <button class=nav id=metadata-button href=#metadatbutton>projects</button>
+    <button class=nav id=lexicon-button  href=#lexicon>lexicon</button>
+    <button class=nav id=export-button  href=#export>export</button>
+    <button class=nav id=import-button  href=#importer>importer</button>
 </div>
 
 <div id=desk>
@@ -56,6 +55,12 @@
   </ul>
 
   <div id=glosser>
+  </div>
+
+  <div id=importer>
+    <div>
+      <h1>import</h1>
+    </div>
   </div>
 
   <div id=notebook>
