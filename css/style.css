@@ -115,16 +115,13 @@ span.translation {
   background:white;
 }
 
-#notebook .controls { 
+#notebook #controls { 
   text-align:right; 
   padding: 0 1em; 
-}
-
-#notebook .controls { 
   float:right;
 }
 
-#notebook .controls a { 
+#notebook #controls a { 
   cursor: pointer;
 }
 

@@ -1,6 +1,4 @@
-
 var show = function(o){ console.log(JSON.stringify(o, null,2)) }
-
 
 $(function(){
 
@@ -41,8 +39,10 @@ $(function(){
     },
 
     index : function(){
+      eb = this;
       this.each(function(s){
-        EntryBook.lexicon.push(s.get('words'))
+        console.log(s.get('words'));
+        eb.lexicon.push(s.get('words'));
       })    
     },
 
@@ -129,15 +129,26 @@ $(function(){
     el : '#toolbox',
 
     initialize : function(){ 
-      _.bindAll(this, 'exportData');
+      _.bindAll(this, 'exportData', 'toggleNotebook', 'toggleLexicon');
     },
 
     events : { 
 
-      'click #export-button' : 'exportData'
+      'click #export-button' : 'exportData',
+
+      'click #lexicon-button'  : 'toggleLexicon',
+      'click #notebook-button' : 'toggleNotebook'
 
     },
 
+    toggleNotebook : function(){ 
+      views.notebook.fadeToggle();
+    },
+
+    toggleLexicon : function(){ 
+      views.lexicon.fadeToggle();
+    },
+ 
     exportData : function(){ 
 
       var data = JSON.stringify(entryBook, null,2);
@@ -163,8 +174,6 @@ $(function(){
   
       _.bindAll(this, 'sentenceKeyup', 'toggleToolbox', 'toggleToolbox', 'transliterate', 'createOnEnter', 'search');
 
-      entryBook.bind('add',   this.addOne, this);
-      entryBook.bind('reset', this.addAll, this);
       entryBook.bind('all',   this.render, this);
 
       entryBook.fetch();
@@ -212,13 +221,6 @@ $(function(){
       $('#card input').first().focus();
       }
     },
-
-    addOne : function(entry){
-    
-    },
-
-    addAll : function(){
-    }
 
   });
 
