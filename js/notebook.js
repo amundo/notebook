@@ -4,7 +4,7 @@ var show = function(o){ console.log(JSON.stringify(o, null,2)) }
 
 $(function(){
 
-  var Sentence  = Backbone.Model.extend({
+  var Entry  = Backbone.Model.extend({
     initialize: function(options){
       _.bindAll(this, 'tokenize');
      
@@ -31,7 +31,7 @@ $(function(){
 
     lexicon : [],
 
-    model : Sentence,
+    model : Entry,
 
     localStorage : new Store('entryBook'),
 
@@ -58,9 +58,9 @@ $(function(){
     className : 'entry',
 
     events : {
-      'click .sentence-destroy' : 'remove',
+      'click .entry-destroy' : 'remove',
       'click .sentence' : 'listWords',
-      'click .sentence-gloss' : 'editGloss'
+      'click .entry-gloss' : 'editGloss'
     },
 
     template : _.template($('#entryTemplate').html()),
@@ -172,10 +172,10 @@ $(function(){
     },
 
     render : function(){
-      this.$('#sentences').html('');
-      entryBook.each(function(sentence){
-        var view = new EntryView({model: sentence});
-        this.$('#sentences').append(view.render().el);
+      this.$('#entries').html('');
+      entryBook.each(function(entry){
+        var view = new EntryView({model: entry});
+        this.$('#entries').append(view.render().el);
       })
     },
 
@@ -213,7 +213,7 @@ $(function(){
       }
     },
 
-    addOne : function(sentence){
+    addOne : function(entry){
     
     },
 

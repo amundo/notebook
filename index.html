@@ -28,8 +28,8 @@
 <script id=entryTemplate type=text/html>
   <nav>
     <span class=order>#<%= order  %></span>
-    <button class=sentence-destroy title="delete this sentence">&#X00D7;</button>
-    <button class=sentence-gloss title="edit gloss">&#X21C5;</button>
+    <button class=entry-destroy title="delete this entry">&#X00D7;</button>
+    <button class=entry-gloss title="edit gloss">&#X21C5;</button>
   </nav>
   <div class=gloss>
     <p class=sentence><%= sentence    %></p> 
@@ -64,11 +64,11 @@
   </div>
 
   <div id=notebook>
-    <div id=sentences> </div>
+    <div id=entries> </div>
   </div>
 
   <div id=card>
-    <input class=sentence id=sentence placeholder=sentence  >
+    <input class=entry id=sentence placeholder=sentence  >
     <input class=translation  placeholder=translation id=translation >
   </div>
 </div><!-- #desk -->

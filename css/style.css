@@ -14,10 +14,6 @@ span.translation, span.sentence {
   font-style: italic;
 }
 
-span.sentence { 
-}
-
-
 span.translation { 
   display:block;
   color: hsla(0, 0%, 30%,.9);
@@ -30,7 +26,7 @@ span.translation {
   font-weight: bold;
 }
 
-#sentences { 
+#entries { 
 }
 
 
@@ -118,13 +114,6 @@ span.translation {
 
   background:white;
 }
-
-#notebook #search_sentences:after {
-  background: url(../images/magnify.png) right center no-repeat;
-  display: inline-block;
-  width: 2em;
-}
-
 
 #notebook .controls { 
   text-align:right; 
