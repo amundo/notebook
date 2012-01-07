@@ -1,8 +1,10 @@
 var show = function(o){ console.log(JSON.stringify(o, null,2)) }
 
+window.Mary = {};
+
 $(function(){
 
-  var Entry  = Backbone.Model.extend({
+  Mary.Entry  = Backbone.Model.extend({
     initialize: function(options){
       _.bindAll(this, 'tokenize');
      
@@ -10,7 +12,7 @@ $(function(){
 
       this.set({
         'timestamp' :  Number(new Date()),
-        'order' : entryBook.nextOrder(),
+        'order' : Mary.entryBook.nextOrder(),
       });
 
     },
@@ -21,17 +23,16 @@ $(function(){
 
   });
 
-  var EntryBook = Backbone.Collection.extend({
+  Mary.EntryBook = Backbone.Collection.extend({
 
-    initialize : function(options){
+    initialize : function(models, options){
       _.bindAll(this, 'index');
+      this.localStorage = new Store(options.store);
     },
 
     lexicon : [],
 
-    model : Entry,
-
-    localStorage : new Store('entryBook'),
+    model : Mary.Entry,
 
     nextOrder : function(model){
       if (!this.length) return 1;
@@ -50,10 +51,9 @@ $(function(){
       return model.get('order');
     }
 
-
   });
 
-  var EntryView = Backbone.View.extend({
+  Mary.EntryView = Backbone.View.extend({
 
     className : 'entry',
 
@@ -92,15 +92,15 @@ $(function(){
 
   });
 
-  entryBook = new EntryBook();
+  Mary.entryBook = new Mary.EntryBook([], {store: 'cmn'});
 
-  var Source = Backbone.Model.extend({ });
+  Mary.Source = Backbone.Model.extend({ });
 
-  var Sources = Backbone.Collection.extend({
-    model : Source
+  Mary.Sources = Backbone.Collection.extend({
+    model : Mary.Source
   });
 
-  var ImporterView = Backbone.View.extend({
+  Mary.ImporterView = Backbone.View.extend({
 
     el : '#importer',
 
@@ -124,7 +124,7 @@ $(function(){
 
   });
   
-  var ToolboxView = Backbone.View.extend({
+  Mary.ToolboxView = Backbone.View.extend({
 
     el : '#toolbox',
 
@@ -151,7 +151,7 @@ $(function(){
  
     exportData : function(){ 
 
-      var data = JSON.stringify(entryBook, null,2);
+      var data = JSON.stringify(Mary.entryBook, null,2);
       $('#desk').html('<pre>' + data + '</pre>')
 
     }
@@ -159,7 +159,7 @@ $(function(){
   });
   
 
-  var Project = Backbone.View.extend({
+  Mary.Project = Backbone.View.extend({
 
     el : '#desk',
 
@@ -174,16 +174,16 @@ $(function(){
   
       _.bindAll(this, 'sentenceKeyup', 'toggleToolbox', 'toggleToolbox', 'transliterate', 'createOnEnter', 'search');
 
-      entryBook.bind('all',   this.render, this);
+      Mary.entryBook.bind('all',   this.render, this);
 
-      entryBook.fetch();
+      Mary.entryBook.fetch();
     
     },
 
     render : function(){
       this.$('#entries').html('');
-      entryBook.each(function(entry){
-        var view = new EntryView({model: entry});
+      Mary.entryBook.each(function(entry){
+        var view = new Mary.EntryView({model: entry});
         this.$('#entries').append(view.render().el);
       })
     },
@@ -213,7 +213,7 @@ $(function(){
 
     createOnEnter : function(ev){
       if(ev.keyCode == 13){
-        entryBook.create({
+        Mary.entryBook.create({
           'sentence': $('#sentence').val(),
           'translation': $('#translation').val()
         });
@@ -224,7 +224,7 @@ $(function(){
 
   });
 
-  var Router = Backbone.Router.extend({
+  Mary.Router = Backbone.Router.extend({
 
     initialize: function(){
     },
@@ -265,11 +265,11 @@ $(function(){
     lexicon : $('#lexicon')
   };
 
-  window.importer = new ImporterView();
-  window.toolbox = new ToolboxView();
+  window.importer = new Mary.ImporterView();
+  window.toolbox = new Mary.ToolboxView();
   window.language = languages.at(1);
-  window.project = new Project();
-  window.router = new Router();
+  window.project = new Mary.Project();
+  window.router = new Mary.Router();
   /*$.getJSON('data/kju.js').success(function(data){
     entryBook.reset(data);
   })*/
