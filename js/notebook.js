@@ -1,4 +1,4 @@
-var show = function(o){ console.log(JSON.stringify(o, null,2)) }
+var show = function(o){ console.log(JSON.stringify(o, null,2)) };
 
 window.Mary = {};
 
@@ -12,7 +12,7 @@ $(function(){
 
       this.set({
         'timestamp' :  Number(new Date()),
-        'order' : Mary.entryBook.nextOrder(),
+        'order' : Mary.entryBook.nextOrder()
       });
 
     },
@@ -26,7 +26,7 @@ $(function(){
   Mary.EntryBook = Backbone.Collection.extend({
 
     initialize : function(models, options){
-      _.bindAll(this, 'index');
+      _.bindAll(this, 'index', 'setLanguage');
       this.localStorage = new Store(options.store);
     },
 
@@ -35,8 +35,19 @@ $(function(){
     model : Mary.Entry,
 
     nextOrder : function(model){
-      if (!this.length) return 1;
+      if (!this.length){ return 1 };
       return this.last().get('order') + 1;
+    },
+
+    setLanguage : function(code){
+      var eb = this; /* is there a better way to do this? */
+      this.url = 'data/' + code + '.js';
+      var key = 'notebook_' + code;
+      this.localStorage = new Store(key);
+      localStorage.notebook_current = key;
+      $.getJSON(this.url).success(function(data){
+        eb.reset(data);
+      }) 
     },
 
     index : function(){
@@ -92,7 +103,7 @@ $(function(){
 
   });
 
-  Mary.entryBook = new Mary.EntryBook([], {store: 'cmn'});
+  Mary.entryBook = new Mary.EntryBook([], {store: localStorage.notebook_current});
 
   Mary.Source = Backbone.Model.extend({ });
 
@@ -129,7 +140,7 @@ $(function(){
     el : '#toolbox',
 
     initialize : function(){ 
-      _.bindAll(this, 'exportData', 'toggleNotebook', 'toggleLexicon');
+      _.bindAll(this, 'exportData', 'toggleNotebook', 'toggleLexicon', 'setLanguage');
     },
 
     events : { 
@@ -137,7 +148,8 @@ $(function(){
       'click #export-button' : 'exportData',
 
       'click #lexicon-button'  : 'toggleLexicon',
-      'click #notebook-button' : 'toggleNotebook'
+      'click #notebook-button' : 'toggleNotebook',
+      'click nav button.language' : 'setLanguage'
 
     },
 
@@ -149,6 +161,12 @@ $(function(){
       views.lexicon.fadeToggle();
     },
  
+    setLanguage : function(ev){
+console.log(this);
+      var code = $(ev.currentTarget).data('code'); 
+      Mary.entryBook.setLanguage(code); 
+    },
+
     exportData : function(){ 
 
       var data = JSON.stringify(Mary.entryBook, null,2);
@@ -270,9 +288,9 @@ $(function(){
   window.language = languages.at(1);
   window.project = new Mary.Project();
   window.router = new Mary.Router();
-  /*$.getJSON('data/kju.js').success(function(data){
-    entryBook.reset(data);
-  })*/
+  /*$.getJSON('data/cmn.js').success(function(data){
+    Mary.entryBook.reset(data);
+  });*/
   Backbone.history.start({});
 
 });

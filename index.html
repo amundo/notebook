@@ -38,10 +38,19 @@
 </script>
 
 <div id=toolbox>
-    <button class=nav id=notebook-button  href=#notebook>notebook</button>
-    <button class=nav id=lexicon-button  href=#lexicon>lexicon</button>
-    <button class=nav id=export-button  href=#export>export</button>
-    <button class=nav id=import-button  href=#importer>importer</button>
+  <nav>
+    <button data-code=cmn class=language id=chinese>Mandarin</button>
+    <button data-code=kju class=language id=kashaya>Kashaya</button>
+    <button data-code=por_BT class=language id=portuguese>Português</button>
+
+    <button class=layout id=notebook-button  href=#notebook>notebook</button>
+    <button class=layout id=lexicon-button   href=#lexicon>lexicon</button>
+    <button class=layout id=export-button    href=#export>export</button>
+    <button class=layout id=import-button    href=#importer>importer</button>
+  </nav>
+</div>
+<div id=toolbox>
+  <ul id=languages></ul>
 </div>
 
 <div id=desk>

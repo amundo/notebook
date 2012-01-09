@@ -37,13 +37,20 @@ var Language = Backbone.Model.extend({
     return _.reject(tokens, function(e){ return e.match(/^[ ]*$/) } );
   }
    
-})
+});
 
 var Languages = Backbone.Collection.extend({
  
   model : Language
 
-})
+});
+
+var LanguagesView = Backbone.View.extend({
+
+  template : _.template('<li><%= name.en %></li>'),
+  
+
+});
 
 var kashaya = {
 
