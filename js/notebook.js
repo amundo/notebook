@@ -45,9 +45,10 @@ $(function(){
       var key = 'notebook_' + code;
       this.localStorage = new Store(key);
       localStorage.notebook_current = key;
-      $.getJSON(this.url).success(function(data){
+      eb.fetch();
+      /*$.getJSON(this.url).success(function(data){
         eb.reset(data);
-      }) 
+      }) */
     },
 
     index : function(){
