@@ -40,12 +40,12 @@ $(function(){
     },
 
     setLanguage : function(code){
-      var eb = this; /* is there a better way to do this? */
+      var self = this; /* is there a better way to do this? */
       this.url = 'data/' + code + '.js';
       var key = 'notebook_' + code;
       this.localStorage = new Store(key);
       localStorage.notebook_current = key;
-      eb.fetch();
+      self.fetch();
       /*$.getJSON(this.url).success(function(data){
         eb.reset(data);
       }) */
