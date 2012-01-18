@@ -1,4 +1,4 @@
-#modal {
+.modal {
   position: fixed;
   visibility: hidden;
   background: hsla(80,10%,30%, .8);
@@ -10,7 +10,7 @@
   z-index: 1000;
 }
 
-#modal div {
+.modal div {
   width:300px;
   margin: 100px auto;
   background-color: #fff;

@@ -11,11 +11,11 @@
   <script src=js/lib/underscore.js></script>
   <script src=js/lib/backbone.js></script>
   <script src=js/lib/backbone-localstorage.js></script>
-  
+
   <script src=js/lang/textual.js></script>
   <script src=js/lang/pinyin.js></script>
   <script src=js/lang/language.js></script>
-  
+
   <script src=js/notebook.js></script>
 
 </head>
@@ -37,24 +37,32 @@
   </div>
 </script>
 
+<div id=languageChooser class=modal>
+  <ul id=languages>
+    <li>Português
+    <li>Mandarin
+  </ul>
+</div>
+
 <div id=toolbox>
   <nav>
     <button data-code=cmn class=language id=chinese>Mandarin</button>
     <button data-code=kju class=language id=kashaya>Kashaya</button>
     <button data-code=por_BT class=language id=portuguese>Português</button>
+    <button data-code=por_BT class=language id=teenek>Teenek</button>
 
-    <button class=layout id=notebook-button  href=#notebook>notebook</button>
-    <button class=layout id=lexicon-button   href=#lexicon>lexicon</button>
-    <button class=layout id=export-button    href=#export>export</button>
-    <button class=layout id=import-button    href=#importer>importer</button>
+    <button class=layout id=notebook-button>notebook</button>
+    <button class=layout id=lexicon-button>lexicon</button>
+    <button class=layout id=export-button>export</button>
+    <button class=layout id=import-button>importer</button>
   </nav>
 </div>
-<div id=toolbox>
-  <ul id=languages></ul>
-</div>
+
+
 
 <div id=desk>
-  <nav>
+
+  <nav id=panels>
     <a title=toolbox id=toggleToolbox>&#x2699;</a>
   </nav>
 
