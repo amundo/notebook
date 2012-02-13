@@ -4,6 +4,7 @@ window.Mary = {};
 
 $(function(){
 
+  
   Mary.Entry  = Backbone.Model.extend({
     initialize: function(options){
       _.bindAll(this, 'tokenize');
@@ -72,13 +73,14 @@ $(function(){
     events : {
       'click .entry-destroy' : 'remove',
       'click .sentence' : 'listWords',
+      'dblclick' : 'editEntry',
       'click .entry-gloss' : 'editGloss'
     },
 
     template : _.template($('#entryTemplate').html()),
 
     initialize : function(){
-      _.bindAll(this, 'remove', 'editGloss', 'listWords');
+      _.bindAll(this, 'remove', 'editEntry', 'editGloss', 'listWords');
       this.model.bind('change', this.render, this); 
     },
 
@@ -90,6 +92,12 @@ $(function(){
 
     editGloss : function(){
       console.log(show(this.model.get('gloss')));
+    },
+
+    editEntry : function(){
+      //console.log('we need to edit ' + this.model.get('sentence'));
+      $('#card input#sentence').val(this.model.get('sentence'));
+      $('#card input#translation').val(this.model.get('translation'));
     },
 
     listWords : function(){
