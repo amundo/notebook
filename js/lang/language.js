@@ -41,7 +41,18 @@ var Language = Backbone.Model.extend({
 
 var Languages = Backbone.Collection.extend({
  
-  model : Language
+  model : Language,
+
+  initialize : function(options){
+    _.bindAll(this, 'byCode');
+  },
+
+  byCode : function(code){
+    this.find(function(lg){
+console.log(code);
+      return lg.get('code') == code;
+    })
+  }
 
 });
 
