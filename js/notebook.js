@@ -98,6 +98,7 @@ $(function(){
       //console.log('we need to edit ' + this.model.get('sentence'));
       $('#card input#sentence').val(this.model.get('sentence'));
       $('#card input#translation').val(this.model.get('translation'));
+      this.model.destroy();
     },
 
     listWords : function(){
