@@ -180,7 +180,7 @@ console.log(this);
     exportData : function(){ 
 
       var data = JSON.stringify(Mary.entryBook, null,2);
-      $('#desk').html('<pre>' + data + '</pre>')
+      $('#entries').html('<pre>' + data + '</pre>')
 
     }
 

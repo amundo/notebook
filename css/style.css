@@ -57,6 +57,9 @@ span.translation {
   content: '\2699'; /* gear */
 }
 
+#card input#sentence {
+  font-weight: bold;
+}
 #card input {
   margin: .5em;
   width: 90%;
