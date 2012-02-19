@@ -72,9 +72,10 @@ $(function(){
 
     events : {
       'click .entry-destroy' : 'remove',
-      'click .sentence' : 'listWords',
-      'dblclick' : 'editEntry',
-      'click .entry-gloss' : 'editGloss'
+      //'click .sentence' : 'listWords',
+      //'dblclick' : 'editEntry',
+      'dblclick .sentence': 'editSentence',
+      'click .entry-gloss' : 'editGloss',
     },
 
     template : _.template($('#entryTemplate').html()),
@@ -93,6 +94,35 @@ $(function(){
     editGloss : function(){
       console.log(show(this.model.get('gloss')));
     },
+    
+    	editVal: function(content) {
+    		console.log(this);
+    		console.log('.'+content);
+    		console.log(this.$('.'+content));
+    		subEl = this.$('.'+content)
+    		
+    		subEl.removeAttr('contenteditable');
+    		obj = {}
+    		console.log(content);
+    		obj[content] = subEl.text();
+    		console.log(show(obj));
+    		this.model.save(obj);
+    	},
+    	
+	editSentence: function(ev) {
+		//ev.stopPropagation();
+		sentence = this.$('.sentence');
+		sentence.attr('contenteditable', 'true');
+		sentence.one('blur', _.bind(this.editVal, this, 'sentence'));
+		/*sentence.one('blur', 
+			function() {
+				console.log($(this));
+				$(this).removeAttr('contenteditable');
+				this.model.set({'sentence': this.
+			}
+		);*/
+		sentence.focus();
+	},    	
 
     editEntry : function(){
       //console.log('we need to edit ' + this.model.get('sentence'));
@@ -192,8 +222,11 @@ console.log(this);
     el : '#desk',
 
     events : {
-      'keyup input' : 'createOnEnter',
-      'keyup input#sentence' : 'sentenceKeyup',
+	'keyup input#sentence': 'sentenceKeyup',
+	'keyup input#gloss': 'glossKeyup',	
+      'keyup input#translation' : 'createOnEnter',
+
+      
       'click a#toggleToolbox' : 'toggleToolbox',
       'click a#toggleCard' : 'toggleCard'
     },
@@ -234,6 +267,16 @@ console.log(this);
 
     sentenceKeyup : function(ev){
       this.transliterate(ev);
+	if(ev.keyCode == 13) {
+		$('input#gloss').val(language.tokenize($('input#sentence').val()))
+		$('input#gloss').focus()
+	}
+    },
+    
+    glossKeyup : function(ev){
+	if(ev.keyCode == 13) {
+		$('input#translation').focus()
+	}
     },
 
     translationKeyup : function(ev){
