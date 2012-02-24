@@ -2,14 +2,85 @@ var show = function(o){ console.log(JSON.stringify(o, null,2)) };
 
 window.Mary = {};
 
-$(function(){
+atomicLingUnit = {atom: "I AM ATOMIC"};
 
+langLevels = ["utterance", "word", "morpheme"]
+
+$(function(){
   
   Mary.Entry  = Backbone.Model.extend({
     initialize: function(options){
       _.bindAll(this, 'tokenize');
      
       this.set({words : this.tokenize()});
+
+		this.set({langStuff: [
+				{
+					unit: "utterance",
+					targetLang: "yo quiero comer una p- mm un perro caliente",
+					metaLang: "I want to eat a h- mm a hot dog",
+					parsed: [		
+						{
+							unit: "word",
+							targetLang: "yo",
+							metaLang: "1SG.NOM",
+							parsed: atomicLingUnit
+						},
+						{
+							unit: "word",
+							targetLang: "quiero",
+							metaLang: "want.1SG",
+							parsed: [
+								{
+									unit: "morpheme",
+									targetLang: "quier",
+									metaLang: "want"
+								},
+								{
+									unit: "morpheme",
+									targetLang: "o",
+									metaLang: "1SG"
+								}
+							]
+						},
+						{
+							unit: "word",
+							targetLang: "comer",
+							metaLang: "eat.INF",
+							parsed: [
+								{
+									unit: "morpheme",
+									targetLang: "com",
+									metaLang: "eat",
+								},
+								{
+									unit: "morpheme",
+									targetLang: "er",
+									metaLang: "INF"
+								}
+							],
+						},
+						{
+							unit: "word",
+							targetLang: "un",
+							metaLang: "INDEF.MASC",
+							parsed: atomicLingUnit
+						},
+						{
+							unit: "word",
+							targetLang: "perro",
+							metaLang: "dog",
+							parsed: atomicLingUnit
+						},
+						{
+							unit: "word",
+							targetLang: "caliente",
+							metaLang: "hot",
+							parsed: atomicLingUnit
+						}
+					]
+
+		}]});
 
       this.set({
         'timestamp' :  Number(new Date()),
@@ -23,7 +94,58 @@ $(function(){
     }
 
   });
+  
+	Mary.LangUnit = Backbone.Model.extend({
+		initialize: function(options) {
+			this.set({
+				'timestamp' :  Number(new Date()),
+				//'order' : Mary.entryBook.nextOrder()
+			});
+			
+			this.localStorage = Mary.entryBook.localStorage;
+			
+			if (this.get('unitType') == "utterance") {
+				this.parseAt(' ');
+			}
+		},
+		
+		parseAt: function(delim) {
+			subUnitType = langLevels[langLevels.indexOf(this.get('unitType'))+1];
+			
+			words = this.get('targetLang').split(delim);
+			
+			this.parseInto(subUnitType, words, _.map(words, function() { return ""; }));
+		},
+		
+		parseInto: function(type, targets, metas) {
+			timestamp = Number(new Date());
+			newSeq = new Mary.LangSequence([], {})
+			subUnits = _.each(_.zip(targets, metas), function(el, ix, list) {
+				newSeq.create({
+					'timestamp': timestamp,
+					'order': ix,
+					'unitType': type,
+					'targetLang': el[0],
+					'metaLang': el[1]
+				});
+			});
+			this.set({parsed: newSeq});
+		}
+	});
+			
 
+	Mary.LangSequence = Backbone.Collection.extend({
+		initialize: function(models, options) {
+			//
+		},
+		
+		model: Mary.LangUnit,
+		
+		comparator: function(model){
+			return model.get('order');
+		}
+	});
+	
   Mary.EntryBook = Backbone.Collection.extend({
 
     initialize : function(models, options){
