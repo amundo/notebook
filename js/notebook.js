@@ -100,13 +100,20 @@ $(function(){
 			this.set({
 				'timestamp' :  Number(new Date()),
 				//'order' : Mary.entryBook.nextOrder()
+				'parsed': new Mary.LangSequence([], {}),
 			});
 			
-			this.localStorage = Mary.entryBook.localStorage;
+			this.get('parsed').parentUnit = this;
+			this.get('parsed').bind('all', this._onParsedEvent, this);
 			
 			if (this.get('unitType') == "utterance") {
 				this.parseAt(' ');
+				this.localStorage = Mary.entryBook.localStorage;
 			}
+			else {
+				this.localStorage = new Store();
+			}
+			
 		},
 		
 		parseAt: function(delim) {
@@ -119,9 +126,10 @@ $(function(){
 		
 		parseInto: function(type, targets, metas) {
 			timestamp = Number(new Date());
-			newSeq = new Mary.LangSequence([], {})
+			parsed = this.get('parsed');
+			parsed.reset();
 			subUnits = _.each(_.zip(targets, metas), function(el, ix, list) {
-				newSeq.create({
+				parsed.create({
 					'timestamp': timestamp,
 					'order': ix,
 					'unitType': type,
@@ -129,14 +137,18 @@ $(function(){
 					'metaLang': el[1]
 				});
 			});
-			this.set({parsed: newSeq});
-		}
+			//this.get('parsed').reset(newSeq);
+		},
+		
+		_onParsedEvent: function(ev, model, collection, options) {
+			this.trigger.apply(this, arguments);
+		},
 	});
 			
 
 	Mary.LangSequence = Backbone.Collection.extend({
 		initialize: function(models, options) {
-			//
+			this.localStorage = Mary.entryBook.localStorage;
 		},
 		
 		model: Mary.LangUnit,
@@ -155,7 +167,8 @@ $(function(){
 
     lexicon : [],
 
-    model : Mary.Entry,
+    //model : Mary.Entry,
+    model: Mary.LangUnit,
 
     nextOrder : function(model){
       if (!this.length){ return 1 };
@@ -163,6 +176,7 @@ $(function(){
     },
 
     setLanguage : function(code){
+    	console.log("I set the language!");
       var self = this; /* is there a better way to do this? */
       this.url = 'data/' + code + '.js';
       var key = 'notebook_' + code;
@@ -406,10 +420,17 @@ console.log(this);
 
     createOnEnter : function(ev){
       if(ev.keyCode == 13){
-        Mary.entryBook.create({
+        /*Mary.entryBook.create({
           'sentence': $('#sentence').val(),
           'translation': $('#translation').val()
-        });
+        });*/
+		Mary.entryBook.create({
+			'unitType': 'utterance',
+			'targetLang': $('#sentence').val(),
+			'metaLang': $('#translation').val(),
+			'order': Mary.entryBook.nextOrder(),
+		});
+		
         $('#card input').val('');
       $('#card input').first().focus();
       }
