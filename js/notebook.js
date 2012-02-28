@@ -210,7 +210,7 @@ $(function(){
       'click .entry-destroy' : 'remove',
       //'click .sentence' : 'listWords',
       //'dblclick' : 'editEntry',
-      'dblclick .sentence': 'editSentence',
+      'dblclick .utterance.targetLang': 'editSentence',
       'click .entry-gloss' : 'editGloss',
     },
 
@@ -231,25 +231,25 @@ $(function(){
       console.log(show(this.model.get('gloss')));
     },
     
-    	editVal: function(content) {
+    	editVal: function(selector, attr) {
     		console.log(this);
-    		console.log('.'+content);
-    		console.log(this.$('.'+content));
-    		subEl = this.$('.'+content)
+    		console.log(selector);
+    		console.log(this.$(selector));
+    		subEl = this.$(selector)
     		
     		subEl.removeAttr('contenteditable');
     		obj = {}
     		console.log(content);
-    		obj[content] = subEl.text();
+    		obj[attr] = subEl.text();
     		console.log(show(obj));
     		this.model.save(obj);
     	},
     	
 	editSentence: function(ev) {
 		//ev.stopPropagation();
-		sentence = this.$('.sentence');
+		sentence = this.$('.utterance.targetLang');
 		sentence.attr('contenteditable', 'true');
-		sentence.one('blur', _.bind(this.editVal, this, 'sentence'));
+		sentence.one('blur', _.bind(this.editVal, this, '.utterance.targetLang', 'targetLang'));
 		/*sentence.one('blur', 
 			function() {
 				console.log($(this));

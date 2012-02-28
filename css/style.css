@@ -21,10 +21,10 @@ span.translation {
   color: hsla(0, 0%, 30%,.9);
 }
 
-.translation { 
+.utterance.metaLang { 
   font-style: italic;
 }
-.sentence { 
+.utterance.targetLang { 
   font-weight: bold;
 }
 
