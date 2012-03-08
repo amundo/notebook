@@ -18,6 +18,23 @@
 
 <script>
 
+
+$.fn.selectRange = function(start, end) {
+    return this.each(function() {
+        if (this.setSelectionRange) {
+            this.focus();
+            this.setSelectionRange(start, end);
+        } else if (this.createTextRange) {
+            var range = this.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', end);
+            range.moveStart('character', start);
+            range.select();
+        }
+    });
+};
+
+
 var oswalt = [ [ "^h", "\u02b0" ], [ "$", "\u0161" ], [ "s'", "s\u0313" ], 
 [ "7", "\u1e6d" ], [ "?", "\u0294" ], [ "i'", "\u00ed" ], [ "u'", "\u00fa" ], 
 [ "o'", "\u00f3" ], [ "e'", "\u00e9" ], [ "\u1e6d'", "\u1e6d\u0313" ], 
