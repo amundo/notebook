@@ -5,19 +5,42 @@
 </title>
 <meta charset=utf-8>
 <script src=../../js/lib/jquery.js></script>
-<script src=../../js/lib/jquery.transliterate.js></script>
 <script src=../../js/lib/underscore.js></script>
 <script src=../../js/lib/backbone.js></script>
-<script src=../../js/lib/d3.v2.js></script>
 
 <link rel=stylesheet type=text/css href=css/style.css />
 
+<style>
+*[contenteditable] {
+  background: beige;
+}
+</style>
+
 <script>
+
+var oswalt = [ [ "^h", "\u02b0" ], [ "$", "\u0161" ], [ "s'", "s\u0313" ], 
+[ "7", "\u1e6d" ], [ "?", "\u0294" ], [ "i'", "\u00ed" ], [ "u'", "\u00fa" ], 
+[ "o'", "\u00f3" ], [ "e'", "\u00e9" ], [ "\u1e6d'", "\u1e6d\u0313" ], 
+[ "t'", "t\u0313" ], [ "q'", "q\u0313" ], [ "c'", "c\u0313" ], [ "k'", "k\u0313" ], 
+[ "p'", "p\u0313" ], [ "q'", "q\u0313" ], [ "a'", "\u00e1" ], [ ":", "\u00b7" ], 
+[ ".-", " .\u0304" ], [ ".^", " .\u0302" ], [ "\u2593  ", "\u25fb" ], [ "O", "\u00b0" ] ]
+
 $(function(){
 
-  $('p:contenteditable').on('click', function(){alert('hi')});
-  $('p:contenteditable').transliterate(table: {'a':'A'});
-//on('click', function(){alert('hi')});
+
+  $('p[contenteditable]').on('keyup', function(ev){
+    var container = $(this);
+    var content = $(this).text();
+    $.each(oswalt, function(i,rule){
+      var before = rule[0],
+          after  = rule[1];
+      content = content.replace(before, after, 'g');
+    });
+    if(ev.which == 32) { 
+      $(container).text(content)
+      return false;
+    };
+  });
 
 })
 </script>
@@ -35,8 +58,16 @@ p[contenteditable] {
 </style>
 </head>
 <body>
-<p contenteditable>mulído mi·li- q̓asi·si he· ʔama·la- nohpʰow šíʔbaši- ʔama· ṭ̓í· šiʔbaši baṭʰe·.̂ kulu bákʰe šiʔbaši ʔem- ṭ̓i· mí· nohpʰow.̂ </p> 
+
+<p contenteditable></p> 
 
 
+<h2>if you type:</h2>
+<p>
+muli'do mi:li q'asi:si he: ?ama:
+<h2>…etc, you should get:</h2>
+<p>mulído mi·li q̓asi·si he· ʔama·la- nohpʰow šíʔbaši- ʔama· ṭ̓í· šiʔbaši baṭʰe·.̂ kulu bákʰe šiʔbaši ʔem- ṭ̓i· mí· nohpʰow.̂ </p> 
+
+<p>It's running whenever you hit "space" but there is a super irritating bug which is that the cursor moves to the beginning of the text.</p>
 </body>
 </html>
