@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<title>
+</title>
+<meta charset=utf-8>
+<script src=../../js/lib/jquery.js></script>
+<script src=../../js/lib/jquery.transliterate.js></script>
+<script src=../../js/lib/underscore.js></script>
+<script src=../../js/lib/backbone.js></script>
+<script src=../../js/lib/d3.v2.js></script>
+
+<link rel=stylesheet type=text/css href=css/style.css />
+
+<script>
+$(function(){
+
+  $('p:contenteditable').on('click', function(){alert('hi')});
+  $('p:contenteditable').transliterate(table: {'a':'A'});
+//on('click', function(){alert('hi')});
+
+})
+</script>
+
+<style>
+
+p { 
+  padding: 4px;
+  border:1px solid white;
+}
+p[contenteditable] { 
+  
+  border:1px dotted gray;
+}
+</style>
+</head>
+<body>
+<p contenteditable>mulído mi·li- q̓asi·si he· ʔama·la- nohpʰow šíʔbaši- ʔama· ṭ̓í· šiʔbaši baṭʰe·.̂ kulu bákʰe šiʔbaši ʔem- ṭ̓i· mí· nohpʰow.̂ </p> 
+
+
+</body>
+</html>
