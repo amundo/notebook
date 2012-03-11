@@ -27,6 +27,21 @@ span.translation {
   font-weight: bold;
 }
 
+.glossLine {
+	/*display: none*/
+}
+
+.glossView {
+	margin-right: 5px;
+	display: inline-block;
+	border: solid #AAAAAA 1px;
+	padding: 5px;
+}
+
+.glossView .glossTarget {
+	border-bottom: solid #CCCCCC 1px;
+}
+
 #entries { 
 }
 

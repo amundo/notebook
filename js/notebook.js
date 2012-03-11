@@ -8,7 +8,7 @@ langLevels = ["utterance", "word", "morpheme"]
 
 $(function(){
   
-  Mary.Entry  = Backbone.Model.extend({
+  Mary.Entry = Backbone.Model.extend({
     initialize: function(options){
       _.bindAll(this, 'tokenize');
      
@@ -101,6 +101,7 @@ $(function(){
 				'timestamp' :  Number(new Date()),
 				//'order' : Mary.entryBook.nextOrder()
 				'parsed': new Mary.LangSequence([], {}),
+				'subUnitType': langLevels[langLevels.indexOf(this.get('unitType'))+1]
 			});
 			
 			this.get('parsed').parentUnit = this;
@@ -109,6 +110,17 @@ $(function(){
 			if (this.get('unitType') == "utterance") {
 				this.parseAt(' ');
 				this.localStorage = Mary.entryBook.localStorage;
+			}
+			else if (this.get('unitType') == "word") {
+				timestamp = Number(new Date());
+				this.get('parsed').create({
+					'timestamp': timestamp,
+					'order': 0,
+					'unitType': "morpheme",
+					'targetLang': this.get('targetLang'),
+					'metaLang': this.get('metaLang')
+				});
+				this.localStorage = new Store()
 			}
 			else {
 				this.localStorage = new Store();
@@ -124,12 +136,12 @@ $(function(){
 			this.parseInto(subUnitType, words, _.map(words, function() { return ""; }));
 		},
 		
-		parseInto: function(type, targets, metas) {
+		parseInto: function(type, targets, metas, options) {
 			timestamp = Number(new Date());
 			parsed = this.get('parsed');
 			parsed.reset();
 			subUnits = _.each(_.zip(targets, metas), function(el, ix, list) {
-				parsed.create({
+				newMod = parsed.create({
 					'timestamp': timestamp,
 					'order': ix,
 					'unitType': type,
@@ -267,17 +279,36 @@ $(function(){
       this.model.destroy();
     },
 
-    listWords : function(){
+    listWords : function() {
       console.log(this.model.tokenize());
     },
 
-    render : function(){
+    render : function() {
       var html = this.template(this.model.toJSON());
       $(this.el).html(html);
+      $(this).find('.glossLine').html('');
+      enclosingView = $(this.el);
+      this.model.get('parsed').each(function(subunit) {
+      	view = new Mary.GlossView({model: subunit});
+      	enclosingView.find('.glossLine').append(view.render().el);
+      });
       return this;
     }
 
   });
+  
+	Mary.GlossView = Backbone.View.extend({
+		className: 'glossView',
+		template : _.template($('#glossTemplate').html()),
+		render: function () {
+			html = this.template(this.model.toJSON());
+			$(this.el).html(html);
+			return this
+		}
+	});
+		
+		
+  	
 
   Mary.entryBook = new Mary.EntryBook([], {store: localStorage.notebook_current});
 
