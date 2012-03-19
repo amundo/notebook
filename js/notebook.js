@@ -155,14 +155,13 @@ $(function(){
 		
 		reparse: function() {
 			console.log("Reparsing", this.get('unitType'), this.get('targetLang'), this);
-			console.log("To begin, parsed of", this.get('unitType'), this.get('targetLang'), "is", this.get('parsed'));
+			//console.log("To begin, parsed of", this.get('unitType'), this.get('targetLang'), "is", this.get('parsed'));
 			var newParsed = new Mary.LangSequence([], {});
 			newParsed.parentUnit = this;
-			console.log("Length of parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed.length);
 			//newParsed.create({'order': -1, unitType: "fakeUnit"});
 			_.each(this.get('parsed'), function(subunit) {
-				console.log("Subunit of", this.get('unitType'), this.get('targetLang'), "is", subunit);
-				console.log("Before, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
+				//console.log("Subunit of", this.get('unitType'), this.get('targetLang'), "is", subunit);
+				//console.log("Before, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
 				if (_.isEqual(subunit.parsed,[])) {
 					subunit.parsed = new Mary.LangSequence([], {});
 				}
@@ -170,15 +169,25 @@ $(function(){
 				newObj.reparse();
 				//newParsed.create(subunit);
 				newParsed.add(newObj);
-				console.log("After, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
+				//console.log("After, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
 			}, this);
 			// May be dangerous. . .
 			//this.attributes.parsed = newParsed
 			
 			this.set({'parsed': newParsed}, {'silent': 'true'});
-			console.log("Is it?", this.get('parsed')==newParsed);
-			console.log("Binding events on", newParsed, "(parent", newParsed.parentUnit.get('unitType'), newParsed.parentUnit.get('targetLang'), ") to ", this.get('unitType'), this.get('targetLang'));
+			//console.log("Binding events on", newParsed, "(parent", newParsed.parentUnit.get('unitType'), newParsed.parentUnit.get('targetLang'), ") to ", this.get('unitType'), this.get('targetLang'));
 			newParsed.bind('all', this._onParsedEvent, this);
+		},
+		
+		sync: function(method, model, options) {
+			if (model.get('unitType') != 'utterance') {
+				console.log("We're crappin' out. . .");
+				return;
+			}
+			else {
+				console.log("We're crappin' in. . .");
+				Backbone.sync.call(this, method, model, options);
+			}
 		},
 		
 		parse: function(resp, xhr) {
