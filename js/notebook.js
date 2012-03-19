@@ -97,35 +97,115 @@ $(function(){
   
 	Mary.LangUnit = Backbone.Model.extend({
 		initialize: function(options) {
-			this.set({
-				'timestamp' :  Number(new Date()),
-				//'order' : Mary.entryBook.nextOrder()
-				'parsed': new Mary.LangSequence([], {}),
-				'subUnitType': langLevels[langLevels.indexOf(this.get('unitType'))+1]
-			});
-			
-			this.get('parsed').parentUnit = this;
-			this.get('parsed').bind('all', this._onParsedEvent, this);
-			
-			if (this.get('unitType') == "utterance") {
-				this.parseAt(' ');
-				this.localStorage = Mary.entryBook.localStorage;
-			}
-			else if (this.get('unitType') == "word") {
-				timestamp = Number(new Date());
-				this.get('parsed').create({
-					'timestamp': timestamp,
-					'order': 0,
-					'unitType': "morpheme",
-					'targetLang': this.get('targetLang'),
-					'metaLang': this.get('metaLang')
+			if (this.get('parsed')==undefined) {
+				this.set({
+					'timestamp' :  Number(new Date()),
+					//'order' : Mary.entryBook.nextOrder()
+					'parsed': new Mary.LangSequence([], {}),
+					'subUnitType': langLevels[langLevels.indexOf(this.get('unitType'))+1]
 				});
-				this.localStorage = new Store()
+				
+				this.get('parsed').parentUnit = this;
+				this.get('parsed').bind('all', this._onParsedEvent, this);
+				
+				if (this.get('unitType') == "utterance") {
+					this.parseAt(' ');
+					this.localStorage = Mary.entryBook.localStorage;
+				}
+				else if (this.get('unitType') == "word") {
+					timestamp = Number(new Date());
+					this.get('parsed').create({
+						'timestamp': timestamp,
+						'order': 0,
+						'unitType': "morpheme",
+						'targetLang': this.get('targetLang'),
+						'metaLang': this.get('metaLang')
+					});
+					this.localStorage = new Store()
+				}
+				else {
+					this.localStorage = new Store();
+				}
 			}
 			else {
-				this.localStorage = new Store();
+				console.log("Initing", this.get('unitType'), this.get('targetLang'));
+				
+				/*
+				xxxxx // to keep firefox from crashing
+				console.log("To begin, parsed of", this.get('unitType'), this.get('targetLang'), "is", this.get('parsed'));
+				newParsed = new Mary.LangSequence([], {});
+				newParsed.parentUnit = this;
+				//newParsed.create({'order': -1, unitType: "fakeUnit"});
+				_.each(this.get('parsed'), function(subunit) {
+					console.log("Subunit of", this.get('unitType'), this.get('targetLang'), "is", subunit);
+					console.log("Before, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
+					newObj = new Mary.LangUnit(subunit);
+					//newParsed.create(subunit);
+					newParsed.add(newObj);
+					console.log("After, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
+				}, this);
+				this.set({'parsed': newParsed});
+				console.log("Finally, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
+				newParsed.bind('all', this._onParsedEvent, this);
+				*/
+				
 			}
+			this.bind('change', this.changeStuff, this);
+		},
+		
+		reparse: function() {
+			console.log("Reparsing", this.get('unitType'), this.get('targetLang'), this);
+			console.log("To begin, parsed of", this.get('unitType'), this.get('targetLang'), "is", this.get('parsed'));
+			var newParsed = new Mary.LangSequence([], {});
+			newParsed.parentUnit = this;
+			console.log("Length of parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed.length);
+			//newParsed.create({'order': -1, unitType: "fakeUnit"});
+			_.each(this.get('parsed'), function(subunit) {
+				console.log("Subunit of", this.get('unitType'), this.get('targetLang'), "is", subunit);
+				console.log("Before, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
+				if (_.isEqual(subunit.parsed,[])) {
+					subunit.parsed = new Mary.LangSequence([], {});
+				}
+				var newObj = new Mary.LangUnit(subunit);
+				newObj.reparse();
+				//newParsed.create(subunit);
+				newParsed.add(newObj);
+				console.log("After, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
+			}, this);
+			// May be dangerous. . .
+			//this.attributes.parsed = newParsed
 			
+			this.set({'parsed': newParsed}, {'silent': 'true'});
+			console.log("Is it?", this.get('parsed')==newParsed);
+			console.log("Binding events on", newParsed, "(parent", newParsed.parentUnit.get('unitType'), newParsed.parentUnit.get('targetLang'), ") to ", this.get('unitType'), this.get('targetLang'));
+			newParsed.bind('all', this._onParsedEvent, this);
+		},
+		
+		parse: function(resp, xhr) {
+			// What the heck is xhr?  Poor documentation...
+			console.log("Parsing model", resp);
+			return resp;
+			
+			console.log("To begin, parsed of", resp.unitType, resp.targetLang, "is", resp.parsed);
+			newParsed = new Mary.LangSequence([], {});
+			newParsed.parentUnit = this;
+			//newParsed.create({'order': -1, unitType: "fakeUnit"});
+			_.each(this.get('parsed'), function(subunit) {
+				console.log("Subunit of", this.get('unitType'), this.get('targetLang'), "is", subunit);
+				console.log("Before, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
+				newParsed.create(subunit);
+				console.log("After, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
+			}, this);
+			this.set({'parsed': newParsed});
+			console.log("Finally, parsed of", this.get('unitType'), this.get('targetLang'), "is", newParsed);
+			newParsed.bind('all', this._onParsedEvent, this);
+					
+			return this;
+		},
+		
+		changeStuff: function(ev) {
+			console.log("Changed", this.get('unitType'), this.get('targetLang'),":", this.get('metaLang'));
+			this.save();
 		},
 		
 		parseAt: function(delim) {
@@ -153,6 +233,7 @@ $(function(){
 		},
 		
 		_onParsedEvent: function(ev, model, collection, options) {
+			console.log("Event in", this.get('unitType'), this.get('targetLang'));
 			this.trigger.apply(this, arguments);
 		},
 	});
@@ -175,6 +256,11 @@ $(function(){
     initialize : function(models, options){
       _.bindAll(this, 'index', 'setLanguage');
       this.localStorage = new Store(options.store);
+    },
+    
+    clearOut: function() {
+    	localStorage.clear();
+    	this.setLanguage('cmn');
     },
 
     lexicon : [],
@@ -210,8 +296,22 @@ $(function(){
 
     comparator : function(model){
       return model.get('order');
-    }
-
+    },
+    
+	parse: function(resp, xhr) {
+		console.log("Parsing collection", typeof resp, resp);
+		//return resp;
+		
+		result = [];
+		_.each(resp, function(obj) {
+			console.log("Obj is",obj);
+			newObj = new Mary.LangUnit(obj);
+			newObj.reparse();
+			result.push(newObj);
+		});
+		console.log("Parsed", result);
+		return result;
+	}
   });
 
   Mary.EntryView = Backbone.View.extend({
@@ -287,24 +387,71 @@ $(function(){
       var html = this.template(this.model.toJSON());
       $(this.el).html(html);
       $(this).find('.glossLine').html('');
-      enclosingView = $(this.el);
-      this.model.get('parsed').each(function(subunit) {
-      	view = new Mary.GlossView({model: subunit});
-      	enclosingView.find('.glossLine').append(view.render().el);
+      glossLine = $(this.el).find('.glossLine');
+      console.log("Rendering", this.model.get('unitType'), this.model.get('targetLang'));
+      this.model.get('parsed').each(function(word) {
+      	view = new Mary.WordView({model: word});
+      	glossLine.append(view.render().el);
       });
       return this;
     }
 
   });
   
+  	Mary.WordView = Backbone.View.extend({
+  		className: 'wordView',
+  		template : _.template($('#wordTemplate').html()),
+  		render: function () {
+  			html = this.template(this.model.toJSON());
+  			$(this.el).html(html);
+  			morphs = $(this.el).find('.morphemes');
+  			morphs.html('');
+  			this.model.get('parsed').each(function(morpheme) {
+  				view = new Mary.GlossView({model: morpheme});
+  				morphs.append(view.render().el);
+  			});
+  			return this;
+  		}
+  	});
+  				
+  
 	Mary.GlossView = Backbone.View.extend({
 		className: 'glossView',
-		template : _.template($('#glossTemplate').html()),
+		template: _.template($('#glossTemplate').html()),
+		
+		events: {
+			'dblclick .glossTarget': 'editTarget',
+		},
+		
+		initialize: function(){
+			//_.bindAll(this, 'editTarget');
+			this.model.bind('change', this.render, this); 
+		},
+		
 		render: function () {
 			html = this.template(this.model.toJSON());
 			$(this.el).html(html);
 			return this
-		}
+		},
+		
+		editTarget: function(ev) {
+			ev.stopPropagation();
+			target = $(this.el).find('.glossTarget');
+			console.log(this);
+			target.attr('contenteditable', 'true');
+			target.one('blur', _.bind(this.editVal, this, '.glossTarget', 'targetLang'));
+			target.focus();
+		},
+		
+		editVal: function(selector, attr) {
+    		subEl = $(this.el).find(selector);
+    		
+    		subEl.removeAttr('contenteditable');
+    		obj = {};
+    		obj[attr] = subEl.text();
+    		this.model.set(obj);
+    		this.model.save();
+    	},
 	});
 		
 		
