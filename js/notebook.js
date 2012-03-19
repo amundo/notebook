@@ -180,12 +180,12 @@ $(function(){
 		},
 		
 		sync: function(method, model, options) {
-			if (model.get('unitType') != 'utterance') {
-				console.log("We're crappin' out. . .");
+			if (method != "create" && model.get('unitType') != 'utterance') {
+				console.log("We're crappin' out on. . .", method);
 				return;
 			}
 			else {
-				console.log("We're crappin' in. . .");
+				console.log("We're crappin' in on. . .", method);
 				Backbone.sync.call(this, method, model, options);
 			}
 		},
