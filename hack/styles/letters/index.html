@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+<title>sample styles for GLOUCHOSSING</title>
+<meta charset=utf-8>
+
+<link rel=stylesheet type=text/css href=css/style.css />
+
+<style>
+pre { 
+  border: 1px dashed #ccc;
+  width: 40%;
+  padding: 1em;
+}
+.word { 
+  display:inline-block;
+  background: #cecece;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.word  { 
+  background: #cecece;
+  border-radius: 8px;
+}
+
+.word { 
+  font-size:large;
+}
+
+.word .c { 
+  display:inline-block;
+  width:1em;
+  font-family:monospace;
+  margin: 0;
+  border: 1px solid transparent;
+  text-align:center;
+  min-height: 2em;
+  min-width: 1.5em;
+  line-height: 2em;
+}
+
+.word .c:hover { 
+  cursor:pointer;
+  border-right: 1px solid black;
+}
+
+</style>
+<script>
+$(function(){
+    
+function letterize(word, alphabet){
+  /* split up word according to alphabet */
+  var pattern = '(' + alphabet.join('|') + ')';
+  var letters = word.match(new RegExp(pattern,'g'));
+    return letters
+};
+
+var alphabet = ['pʰ','n','h','p','o','w'];
+var word = $('.word').text();
+var letters = letterize(word, alphabet);
+$('.morphemes').text(letters.join('-'));
+    
+ //   $('.morphemes').text(letters.join('-'),alphabet);
+    
+})
+</script>
+
+</head>
+<body>
+
+<pre>
+bóʔo-t-a·c̓-in 
+hunt-Pl.-Dur.-C1
+</pre>
+
+<span class=word>
+<span class=c>b</span><span class=c>ó</span><span class=c>ʔ</span><span class=c>o</span><span class=c>t</span><span class=c>a</span><span class=c>·</span><span class=c>c̓</span><span class=c>i</span><span class=c>n </span>
+</span>
+
+
+<p>
+<span class=word>
+bóʔo-t-a·c̓-in 
+hunt-Pl.-Dur.-C1
+</span>
+</p>
+
+</body>
+</html>
