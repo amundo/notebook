@@ -94,7 +94,8 @@ $(function(){
     }
 
   });
-  
+
+
 	Mary.LangUnit = Backbone.Model.extend({
 		initialize: function(options) {
 			if (this.get('parsed')==undefined) {
@@ -474,30 +475,6 @@ $(function(){
     model : Mary.Source
   });
 
-  Mary.ImporterView = Backbone.View.extend({
-
-    el : '#importer',
-
-    initialize : function(){ 
-      _.bindAll(this, 'importData');
-    },
-
-    events : { 
-
-      'click #import-button' : 'importData'
-
-    },
-
-    toggle : function(){ 
-      $(this.el).fadeToggle()
-    },
-
-    importData : function(){ 
-
-    }
-
-  });
-  
   Mary.ToolboxView = Backbone.View.extend({
 
     el : '#toolbox',

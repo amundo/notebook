@@ -67,7 +67,19 @@ $('.morphemes').text(letters.join('-'));
 </script>
 <style>
 
+::-moz-selection { 
+  background: red; 
+}
 ::selection { 
+  background-color: red;
+}
+
+
+p[lang=kju]::-moz-selection { 
+  background: #eb5f3a; 
+}
+
+p[lang=kju]::selection { 
   background-color: red;
 }
 </style>
