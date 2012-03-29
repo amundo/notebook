@@ -643,7 +643,6 @@ console.log(this);
     lexicon : $('#lexicon')
   };
 
-  window.importer = new Mary.ImporterView();
   window.toolbox = new Mary.ToolboxView();
   window.language = languages.at(1);
   window.project = new Mary.Project();
