@@ -267,15 +267,12 @@ $(function(){
       _.bindAll(this, 'index', 'setLanguage');
       this.localStorage = new Store(options.store);
     },
-    
+
     clearOut: function() {
     	localStorage.clear();
     	this.setLanguage('cmn');
     },
 
-    lexicon : [],
-
-    //model : Mary.Entry,
     model: Mary.LangUnit,
 
     nextOrder : function(model){
@@ -300,7 +297,6 @@ $(function(){
       eb = this;
       this.each(function(s){
         console.log(s.get('words'));
-        eb.lexicon.push(s.get('words'));
       })    
     },
 
@@ -330,8 +326,6 @@ $(function(){
 
     events : {
       'click .entry-destroy' : 'remove',
-      //'click .sentence' : 'listWords',
-      //'dblclick' : 'editEntry',
       'dblclick .utterance.targetLang': 'editSentence',
       'click .entry-gloss' : 'editGloss',
     },
@@ -480,14 +474,13 @@ $(function(){
     el : '#toolbox',
 
     initialize : function(){ 
-      _.bindAll(this, 'exportData', 'toggleNotebook', 'toggleLexicon', 'setLanguage');
+      _.bindAll(this, 'exportData', 'toggleNotebook', 'setLanguage');
     },
 
     events : { 
 
       'click #export-button' : 'exportData',
 
-      'click #lexicon-button'  : 'toggleLexicon',
       'click #notebook-button' : 'toggleNotebook',
       'click nav button.language' : 'setLanguage'
 
@@ -497,12 +490,7 @@ $(function(){
       views.notebook.fadeToggle();
     },
 
-    toggleLexicon : function(){ 
-      views.lexicon.fadeToggle();
-    },
- 
     setLanguage : function(ev){
-console.log(this);
       var code = $(ev.currentTarget).data('code'); 
       Mary.entryBook.setLanguage(code); 
     },
@@ -527,13 +515,12 @@ console.log(this);
       'keyup input#translation' : 'createOnEnter',
 
       
-      'click a#toggleToolbox' : 'toggleToolbox',
       'click a#toggleCard' : 'toggleCard'
     },
 
     initialize: function(){ 
   
-      _.bindAll(this, 'sentenceKeyup', 'toggleToolbox', 'toggleToolbox', 'transliterate', 'createOnEnter', 'search');
+      _.bindAll(this, 'sentenceKeyup', 'transliterate', 'createOnEnter', 'search');
 
       Mary.entryBook.bind('all',   this.render, this);
 
@@ -551,10 +538,6 @@ console.log(this);
 
     toggleCard : function(){
       views.card.fadeToggle()
-    },
-
-    toggleToolbox : function(){
-      views.toolbox.slideToggle()
     },
 
     search : function(query){
@@ -602,37 +585,6 @@ console.log(this);
 
   });
 
-  Mary.Router = Backbone.Router.extend({
-
-    initialize: function(){
-    },
-
-    routes: {
-      "help":                 "help",    // #help
-      "search/:query":        "search",  // #search/kiwis
-      "lexicon":        "lexicon",  // #search/kiwis
-      "*actions/:query": "defaultRoute" ,
-    },
-
-    help: function() {
-      console.log('help');
-    },
-
-    lexicon: function() {
-      
-    },
-
-
-    search: function(query) {
-      console.log('searching for: ' + query);
-    },
-
-    defaultRoute: function(query) {
-        console.log(query);
-    }
-
-  });
-
   views = { 
     notebook : $('#notebook'),
     glosser : $('#glosser'),
@@ -640,13 +592,11 @@ console.log(this);
     importer : $('#importer'),
     card : $('#card'),
     toolbox : $('#toolbox'),
-    lexicon : $('#lexicon')
   };
 
   window.toolbox = new Mary.ToolboxView();
   window.language = languages.at(1);
   window.project = new Mary.Project();
-  window.router = new Mary.Router();
   /*$.getJSON('data/cmn.js').success(function(data){
     Mary.entryBook.reset(data);
   });*/
