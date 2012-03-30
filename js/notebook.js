@@ -600,6 +600,5 @@ $(function(){
   /*$.getJSON('data/cmn.js').success(function(data){
     Mary.entryBook.reset(data);
   });*/
-  Backbone.history.start({});
 
 });

@@ -54,14 +54,13 @@ span.translation {
 
 #card {
   background: white;
-  position: fixed;
-  margin: 1em;
-  float:left;
-  width: 40%;
+  margin: 1em auto;
+  width: 60%;
   padding: 1em;
   -webkit-box-shadow: -5px 4px 6px 2px rgba(5, 5, 5, .2);
   -moz-box-shadow: -5px 4px 6px 2px rgba(5, 5, 5, .2);
   box-shadow: -5px 4px 6px 2px rgba(5, 5, 5, .2); 
+  border: 1px solid #333; 
   -webkit-border-radius: 1px;
   -moz-border-radius: 1px;
   border-radius: 1px;
@@ -146,10 +145,7 @@ span.translation {
 
 #notebook {
   display:block;
-  float:right;
   min-height: 500px;
-  height: 50%;
-  width: 50%;
 
   line-height: 150%;
 
@@ -164,7 +160,8 @@ span.translation {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 
-  margin-right: 2em;
+  width: 80%;
+  margin: 1em auto;
 
   background:white;
 }
