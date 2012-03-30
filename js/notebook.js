@@ -6,13 +6,13 @@ langLevels = ["utterance", "word", "morpheme"]
 
 $(function(){
   
-  Mary.Entry = Backbone.Model.extend({
-    initialize: function(options){
-      _.bindAll(this, 'tokenize');
-     
-      this.set({words : this.tokenize()});
+	Mary.Entry = Backbone.Model.extend({
+		initialize: function(options){
+			_.bindAll(this, 'tokenize');
+		 
+			this.set({words : this.tokenize()});
 
-		this.set({langStuff: [
+			this.set({langStuff: [
 				{
 					unit: "utterance",
 					targetLang: "yo quiero comer una p- mm un perro caliente",
@@ -80,25 +80,25 @@ $(function(){
 
 		}]});
 
-      this.set({
-        'timestamp' :  Number(new Date()),
-        'order' : Mary.entryBook.nextOrder()
-      });
+			this.set({
+				'timestamp' :	Number(new Date()),
+				'order' : Mary.entryBook.nextOrder()
+			});
 
-    },
+		},
  
-    tokenize : function(){
-      return language.tokenize(this.get('sentence'));
-    }
+		tokenize : function(){
+			return language.tokenize(this.get('sentence'));
+		}
 
-  });
+	});
 
 
 	Mary.LangUnit = Backbone.Model.extend({
 		initialize: function(options) {
 			if (this.get('parsed')==undefined) {
 				this.set({
-					'timestamp' :  Number(new Date()),
+					'timestamp' :	Number(new Date()),
 					//'order' : Mary.entryBook.nextOrder()
 					'parsed': new Mary.LangSequence([], {}),
 					'subUnitType': langLevels[langLevels.indexOf(this.get('unitType'))+1]
@@ -190,7 +190,7 @@ $(function(){
 		},
 		
 		parse: function(resp, xhr) {
-			// What the heck is xhr?  Poor documentation...
+			// What the heck is xhr?	Poor documentation...
 			console.log("Parsing model", resp);
 			return resp;
 			
@@ -259,49 +259,42 @@ $(function(){
 		}
 	});
 	
-  Mary.EntryBook = Backbone.Collection.extend({
+	Mary.EntryBook = Backbone.Collection.extend({
 
-    initialize : function(models, options){
-      _.bindAll(this, 'index', 'setLanguage');
-      this.localStorage = new Store(options.store);
-    },
+		initialize : function(models, options){
+			_.bindAll(this, 'setLanguage');
+			this.localStorage = new Store(options.store);
+		},
 
-    clearOut: function() {
-    	localStorage.clear();
-    	this.setLanguage('cmn');
-    },
+		clearOut: function() {
+			localStorage.clear();
+			this.setLanguage('cmn');
+		},
 
-    model: Mary.LangUnit,
+		model: Mary.LangUnit,
 
-    nextOrder : function(model){
-      if (!this.length){ return 1 };
-      return this.last().get('order') + 1;
-    },
+		nextOrder : function(model){
+			if (!this.length){ return 1 };
+			return this.last().get('order') + 1;
+		},
 
-    setLanguage : function(code){
-    	console.log("I set the language!");
-      var self = this; /* is there a better way to do this? */
-      this.url = 'data/' + code + '.js';
-      var key = 'notebook_' + code;
-      this.localStorage = new Store(key);
-      localStorage.notebook_current = key;
-      self.fetch();
-      /*$.getJSON(this.url).success(function(data){
-        eb.reset(data);
-      }) */
-    },
+		setLanguage : function(code){
+			console.log("I set the language!");
+			var self = this; /* is there a better way to do this? */
+			this.url = 'data/' + code + '.js';
+			var key = 'notebook_' + code;
+			this.localStorage = new Store(key);
+			localStorage.notebook_current = key;
+			self.fetch();
+			/*$.getJSON(this.url).success(function(data){
+				eb.reset(data);
+			}) */
+		},
 
-    index : function(){
-      eb = this;
-      this.each(function(s){
-        console.log(s.get('words'));
-      })    
-    },
-
-    comparator : function(model){
-      return model.get('order');
-    },
-    
+		comparator : function(model){
+			return model.get('order');
+		},
+		
 	parse: function(resp, xhr) {
 		console.log("Parsing collection", typeof resp, resp);
 		//return resp;
@@ -316,49 +309,49 @@ $(function(){
 		console.log("Parsed", result);
 		return result;
 	}
-  });
+	});
 
-  Mary.EntryView = Backbone.View.extend({
+	Mary.EntryView = Backbone.View.extend({
 
-    className : 'entry',
+		className : 'entry',
 
-    events : {
-      'click .entry-destroy' : 'remove',
-      'dblclick .utterance.targetLang': 'editSentence',
-      'click .entry-gloss' : 'editGloss',
-    },
+		events : {
+			'click .entry-destroy' : 'remove',
+			'dblclick .utterance.targetLang': 'editSentence',
+			'click .entry-gloss' : 'editGloss',
+		},
 
-    template : _.template($('#entryTemplate').html()),
+		template : _.template($('#entryTemplate').html()),
 
-    initialize : function(){
-      _.bindAll(this, 'remove', 'editEntry', 'editGloss', 'listWords');
-      this.model.bind('change', this.render, this); 
-    },
+		initialize : function(){
+			_.bindAll(this, 'remove', 'editEntry', 'editGloss', 'listWords');
+			this.model.bind('change', this.render, this); 
+		},
 
-    remove : function(){
-      if (window.confirm("Remove?")) { 
-        this.model.destroy();
-      }
-    },
+		remove : function(){
+			if (window.confirm("Remove?")) { 
+				this.model.destroy();
+			}
+		},
 
-    editGloss : function(){
-      console.log(show(this.model.get('gloss')));
-    },
-    
-    	editVal: function(selector, attr) {
-    		console.log(this);
-    		console.log(selector);
-    		console.log(this.$(selector));
-    		subEl = this.$(selector)
-    		
-    		subEl.removeAttr('contenteditable');
-    		obj = {}
-    		console.log(content);
-    		obj[attr] = subEl.text();
-    		console.log(show(obj));
-    		this.model.save(obj);
-    	},
-    	
+		editGloss : function(){
+			console.log(show(this.model.get('gloss')));
+		},
+		
+			editVal: function(selector, attr) {
+				console.log(this);
+				console.log(selector);
+				console.log(this.$(selector));
+				subEl = this.$(selector)
+				
+				subEl.removeAttr('contenteditable');
+				obj = {}
+				console.log(content);
+				obj[attr] = subEl.text();
+				console.log(show(obj));
+				this.model.save(obj);
+			},
+			
 	editSentence: function(ev) {
 		//ev.stopPropagation();
 		sentence = this.$('.utterance.targetLang');
@@ -372,51 +365,51 @@ $(function(){
 			}
 		);*/
 		sentence.focus();
-	},    	
+	},			
 
-    editEntry : function(){
-      //console.log('we need to edit ' + this.model.get('sentence'));
-      $('#card input#sentence').val(this.model.get('sentence'));
-      $('#card input#translation').val(this.model.get('translation'));
-      this.model.destroy();
-    },
+		editEntry : function(){
+			//console.log('we need to edit ' + this.model.get('sentence'));
+			$('#card input#sentence').val(this.model.get('sentence'));
+			$('#card input#translation').val(this.model.get('translation'));
+			this.model.destroy();
+		},
 
-    listWords : function() {
-      console.log(this.model.tokenize());
-    },
+		listWords : function() {
+			console.log(this.model.tokenize());
+		},
 
-    render : function() {
-      var html = this.template(this.model.toJSON());
-      $(this.el).html(html);
-      $(this).find('.glossLine').html('');
-      glossLine = $(this.el).find('.glossLine');
-      console.log("Rendering", this.model.get('unitType'), this.model.get('targetLang'));
-      this.model.get('parsed').each(function(word) {
-      	view = new Mary.WordView({model: word});
-      	glossLine.append(view.render().el);
-      });
-      return this;
-    }
+		render : function() {
+			var html = this.template(this.model.toJSON());
+			$(this.el).html(html);
+			$(this).find('.glossLine').html('');
+			glossLine = $(this.el).find('.glossLine');
+			console.log("Rendering", this.model.get('unitType'), this.model.get('targetLang'));
+			this.model.get('parsed').each(function(word) {
+				view = new Mary.WordView({model: word});
+				glossLine.append(view.render().el);
+			});
+			return this;
+		}
 
-  });
+	});
   
-  	Mary.WordView = Backbone.View.extend({
-  		className: 'wordView',
-  		template : _.template($('#wordTemplate').html()),
-  		render: function () {
-  			html = this.template(this.model.toJSON());
-  			$(this.el).html(html);
-  			morphs = $(this.el).find('.morphemes');
-  			morphs.html('');
-  			this.model.get('parsed').each(function(morpheme) {
-  				view = new Mary.GlossView({model: morpheme});
-  				morphs.append(view.render().el);
-  			});
-  			return this;
-  		}
-  	});
-  				
-  
+		Mary.WordView = Backbone.View.extend({
+			className: 'wordView',
+			template : _.template($('#wordTemplate').html()),
+			render: function () {
+				html = this.template(this.model.toJSON());
+				$(this.el).html(html);
+				morphs = $(this.el).find('.morphemes');
+				morphs.html('');
+				this.model.get('parsed').each(function(morpheme) {
+					view = new Mary.GlossView({model: morpheme});
+					morphs.append(view.render().el);
+				});
+				return this;
+			}
+		});
+					
+	
 	Mary.GlossView = Backbone.View.extend({
 		className: 'glossView',
 		template: _.template($('#glossTemplate').html()),
@@ -446,118 +439,114 @@ $(function(){
 		},
 		
 		editVal: function(selector, attr) {
-    		subEl = $(this.el).find(selector);
-    		
-    		subEl.removeAttr('contenteditable');
-    		obj = {};
-    		obj[attr] = subEl.text();
-    		this.model.set(obj);
-    		this.model.save();
-    	},
+				subEl = $(this.el).find(selector);
+				
+				subEl.removeAttr('contenteditable');
+				obj = {};
+				obj[attr] = subEl.text();
+				this.model.set(obj);
+				this.model.save();
+			},
 	});
 		
 		
-  	
+		
 
-  Mary.entryBook = new Mary.EntryBook([], {store: localStorage.notebook_current});
+	Mary.entryBook = new Mary.EntryBook([], {store: localStorage.notebook_current});
 
-  Mary.ToolboxView = Backbone.View.extend({
+	Mary.ToolboxView = Backbone.View.extend({
 
-    el : '#toolbox',
+		el : '#toolbox',
 
-    initialize : function(){ 
-      _.bindAll(this, 'exportData', 'setLanguage');
-    },
+		initialize : function(){ 
+			_.bindAll(this, 'exportData', 'setLanguage');
+		},
 
-    events : { 
+		events : { 
+			'click #export-button' : 'exportData',
+		},
 
-      'click #export-button' : 'exportData',
+		setLanguage : function(ev){
+			var code = $(ev.currentTarget).data('code'); 
+			Mary.entryBook.setLanguage(code); 
+		},
 
-      'click nav button.language' : 'setLanguage'
+		exportData : function(){ 
 
-    },
+			var data = JSON.stringify(Mary.entryBook, null,2);
+			$('#entries').html('<pre>' + data + '</pre>')
 
-    setLanguage : function(ev){
-      var code = $(ev.currentTarget).data('code'); 
-      Mary.entryBook.setLanguage(code); 
-    },
+		}
 
-    exportData : function(){ 
+	});
+	
 
-      var data = JSON.stringify(Mary.entryBook, null,2);
-      $('#entries').html('<pre>' + data + '</pre>')
+	Mary.Project = Backbone.View.extend({
 
-    }
+		el : '#desk',
 
-  });
-  
+		events : {
+			'keyup input#sentence': 'sentenceKeyup',
+			'keyup input#gloss': 'glossKeyup',	
+			'keyup input#translation' : 'createOnEnter',
 
-  Mary.Project = Backbone.View.extend({
+			
+			'click a#toggleCard' : 'toggleCard'
+		},
 
-    el : '#desk',
+		initialize: function(){ 
+	
+			_.bindAll(this, 'sentenceKeyup', 'transliterate', 'createOnEnter', 'search');
 
-    events : {
-	'keyup input#sentence': 'sentenceKeyup',
-	'keyup input#gloss': 'glossKeyup',	
-      'keyup input#translation' : 'createOnEnter',
+			Mary.entryBook.bind('all', this.render, this);
 
-      
-      'click a#toggleCard' : 'toggleCard'
-    },
+			Mary.entryBook.fetch();
+		
+		},
 
-    initialize: function(){ 
-  
-      _.bindAll(this, 'sentenceKeyup', 'transliterate', 'createOnEnter', 'search');
+		render : function(){
+			this.$('#entries').html('');
+			Mary.entryBook.each(function(entry){
+				var view = new Mary.EntryView({model: entry});
+				this.$('#entries').append(view.render().el);
+			})
+		},
 
-      Mary.entryBook.bind('all',   this.render, this);
+		toggleCard : function(){
+			views.card.fadeToggle()
+		},
 
-      Mary.entryBook.fetch();
-    
-    },
+		search : function(query){
+		},
 
-    render : function(){
-      this.$('#entries').html('');
-      Mary.entryBook.each(function(entry){
-        var view = new Mary.EntryView({model: entry});
-        this.$('#entries').append(view.render().el);
-      })
-    },
+		transliterate : function(ev){
+			var transliterated = language.transliterate($(ev.target).val());
+			this.$('input#sentence').val(transliterated);
+		},
 
-    toggleCard : function(){
-      views.card.fadeToggle()
-    },
-
-    search : function(query){
-    },
-
-    transliterate : function(ev){
-      var transliterated = language.transliterate($(ev.target).val());
-      this.$('input#sentence').val(transliterated);
-    },
-
-    sentenceKeyup : function(ev){
-      this.transliterate(ev);
+		sentenceKeyup : function(ev){
+			this.transliterate(ev);
 	if(ev.keyCode == 13) {
 		$('input#gloss').val(language.tokenize($('input#sentence').val()))
 		$('input#gloss').focus()
 	}
-    },
-    
-    glossKeyup : function(ev){
+		},
+		
+		glossKeyup : function(ev){
 	if(ev.keyCode == 13) {
 		$('input#translation').focus()
 	}
-    },
+		},
 
-    translationKeyup : function(ev){
-    },
+		translationKeyup : function(ev){
+		},
 
-    createOnEnter : function(ev){
-      if(ev.keyCode == 13){
-        /*Mary.entryBook.create({
-          'sentence': $('#sentence').val(),
-          'translation': $('#translation').val()
-        });*/
+		createOnEnter : function(ev){
+			if(ev.keyCode == 13){
+				/*Mary.entryBook.create({
+					'sentence': $('#sentence').val(),
+					'translation': $('#translation').val()
+				});*/
 		Mary.entryBook.create({
 			'unitType': 'utterance',
 			'targetLang': $('#sentence').val(),
@@ -565,27 +554,27 @@ $(function(){
 			'order': Mary.entryBook.nextOrder(),
 		});
 		
-        $('#card input').val('');
-      $('#card input').first().focus();
-      }
-    },
+				$('#card input').val('');
+			$('#card input').first().focus();
+			}
+		},
 
-  });
+	});
 
-  views = { 
-    notebook : $('#notebook'),
-    glosser : $('#glosser'),
-    help : $('#help'),
-    importer : $('#importer'),
-    card : $('#card'),
-    toolbox : $('#toolbox'),
-  };
+	views = { 
+		notebook : $('#notebook'),
+		glosser : $('#glosser'),
+		help : $('#help'),
+		importer : $('#importer'),
+		card : $('#card'),
+		toolbox : $('#toolbox'),
+	};
 
-  window.toolbox = new Mary.ToolboxView();
-  window.language = languages.at(1);
-  window.project = new Mary.Project();
-  /*$.getJSON('data/cmn.js').success(function(data){
-    Mary.entryBook.reset(data);
-  });*/
+	window.toolbox = new Mary.ToolboxView();
+	window.language = languages.at(1);
+	window.project = new Mary.Project();
+	/*$.getJSON('data/cmn.js').success(function(data){
+		Mary.entryBook.reset(data);
+	});*/
 
 });
