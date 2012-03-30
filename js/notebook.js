@@ -1,5 +1,3 @@
-var show = function(o){ console.log(JSON.stringify(o, null,2)) };
-
 window.Mary = {};
 
 atomicLingUnit = {atom: "I AM ATOMIC"};
@@ -463,31 +461,20 @@ $(function(){
 
   Mary.entryBook = new Mary.EntryBook([], {store: localStorage.notebook_current});
 
-  Mary.Source = Backbone.Model.extend({ });
-
-  Mary.Sources = Backbone.Collection.extend({
-    model : Mary.Source
-  });
-
   Mary.ToolboxView = Backbone.View.extend({
 
     el : '#toolbox',
 
     initialize : function(){ 
-      _.bindAll(this, 'exportData', 'toggleNotebook', 'setLanguage');
+      _.bindAll(this, 'exportData', 'setLanguage');
     },
 
     events : { 
 
       'click #export-button' : 'exportData',
 
-      'click #notebook-button' : 'toggleNotebook',
       'click nav button.language' : 'setLanguage'
 
-    },
-
-    toggleNotebook : function(){ 
-      views.notebook.fadeToggle();
     },
 
     setLanguage : function(ev){
