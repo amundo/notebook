@@ -563,9 +563,6 @@ $(function(){
 
 	views = { 
 		notebook : $('#notebook'),
-		glosser : $('#glosser'),
-		help : $('#help'),
-		importer : $('#importer'),
 		card : $('#card'),
 		toolbox : $('#toolbox'),
 	};
